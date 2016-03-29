@@ -1,0 +1,37 @@
+##############################################################
+*****		ON MET TOUTES LES IDEES ICI :         *******
+##############################################################
+
+=>1) Les actifs 
+	=>1.1) Lesquels mettre ?
+
+- On prend une centaine d'actifs les plus connus et variés
+- On ajoute les options vanilles (Call, Put, Futures etc ...)
+	
+	=>1.2) Comment on les met à jour ?
+
+- On prend les vrais valeurs par un parsage en ligne
+- On les simule (Black-Scholes)
+- On les simule (CCR : arbre binomial)
+- On prend des valeurs historiques sur 10 ans ?
+- On prend des valeurs historiques + petites erreurs de normes ?
+
+- Calcul des prix par méthode de Blackscholes si actualisation continue (sinon par arbre binomial)
+	
+	=>1.3 Structure de donnée 
+
+- Classe actif // attributs : idActif, Nom, const(Valeur actuelle=f(Marché::DateDuJour)) 
+- Classe portefeuille // attributs : list<actifs>, pay-off // méthode : ajout, remove ... 
+- Classe Utilisateur // static : identificateur(++ lors de création) // idUser, nom, fortune, portefeuille 
+- Classe Marché // static : DateDuJour // attributs : taux d'interet, hashset<idActif,Nombre_restant>, list<utilisateurs> // méthode : get/set(DateduJour) 
+
+- Gérer les ventes/achats ?
+
+=>2) Le portefeuille
+	
+	=>2.1) Mettre des limites ?
+
+=>3) Autres
+
+	=>3.1) Actualités (si valeurs des actifs historiques)
+- Proposer comme un petit journal où on écrit des news financières pour aider à la décision
