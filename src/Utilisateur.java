@@ -25,8 +25,8 @@ public class Utilisateur {
     private int ID; /**< User's ID*/
     private String nom; /**< User's name*/
     private int argent; /**< User's Cash */
-    private ListeDActionDetenus portefeuille;
-    private ListeDActionFavoris favoris;
+    private ListeDActionDetenus portefeuille; /**< User's portfolio*/
+    private ListeDActionFavoris favoris; /**< User's list of favorite assets*/
 
     // GETTERS & SETTERS //
 
@@ -49,6 +49,18 @@ public class Utilisateur {
     }
 
     public void vendre(int IDAction, int quantite) {
+
+    }
+
+    public void afficherPortefeuille() {
+
+    }
+
+    public void afficherFavoris() {
+
+    }
+
+    public void afficherHistorique() {
 
     }
 
