@@ -12,7 +12,11 @@
 /**
  * \class ListeDAction
  * \brief Representation of a list of assets
+ *
+ * \details abstract class ?
  */
-public class ListeDAction {
+
+//TODO : Abstract or not ?
+abstract public class ListeDAction {
 
 }
