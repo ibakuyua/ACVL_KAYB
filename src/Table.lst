@@ -1,0 +1,19 @@
+DROP TABLE Historique;
+DROP TABLE Action; 
+
+CREATE TABLE Action(
+    IDaction INTEGER CONSTRAINT id PRIMARY KEY, 
+    Name VARCHAR(30),
+    Quantity INTEGER, 
+    Value1 INTEGE
+); 
+
+CREATE TABLE Historique(
+    IdVendeur INTEGER, 
+    IdAcheteur INTEGER, 
+    IdAction INTEGER references Action PRIMARY KEY, 
+    Quantity INTEGER,
+    CHECK ( Quantity >= 0 )
+);
+
+

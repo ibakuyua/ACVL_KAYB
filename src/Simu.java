@@ -64,7 +64,7 @@ class Simulation{
         System.out.println("\n\033[31m[Fonction jeu à implémenter]\033[m\n");
     }
 
-    private void connectBD(){
+    protected void connectBD(){
         //Connection BD
         try {
             //DriverManager.registerDriver(new oracle.driver.OracleDriver());
@@ -80,7 +80,7 @@ class Simulation{
         }
     }
 
-    private void disconnectBD(){
+    protected void disconnectBD(){
         try{
             connection.close();
         } catch (Exception e){
@@ -89,7 +89,7 @@ class Simulation{
         }
     }
 
-    private void initBD(){
+    protected void initBD(){
 
     }
     //TODO : Mettre les fonctions nécessaires à la fonction jouer ici en private
@@ -102,11 +102,17 @@ class Test{
         // Instance d'un marché
         System.out.print("\n\n 1) Instance d'un marché : ");
         Marche m = new Marche("AllMarket", 0, 10);
+        Simulation s = new Simulation(); 
         assert m != null : "La création d'un objet Marche n'a pas fonctionné" + failed();
         assert m.getNom().equals("AllMarket") : "Le constructeur de Marche ne rentre pas le nom" + failed();
         assert m.getNombreActions() == 10 : "Le constructeur de Marche ne rentre pas le bon nombre d'action" + failed();
         assert m.getTourCour() == 0 : "Le constructeur de Marche ne rentre pas le bon tour courant" + failed();
         System.out.print(check());
+        s.connectBD(); 
+        System.out.println("Connection à la BD OK"); 
+        assert s.connection == null ; 
+        s.disconnectBD(); 
+        System.out.println("Déconnection à la BD OK"); 
         // Affichage marché
         System.out.println("\n\n 2) Affichage du marché créé : \n");
         System.out.println(m);
