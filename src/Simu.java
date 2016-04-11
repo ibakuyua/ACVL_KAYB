@@ -64,10 +64,10 @@ class Simulation{
         System.out.println("\n\033[31m[Fonction jeu à implémenter]\033[m\n");
     }
 
-    private void connectBD(){
+    protected void connectBD(){
         //Connection BD
         try {
-            //DriverManager.registerDriver(new oracle.driver.OracleDriver());
+            DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
             String url = "jdbc:oracle:thin:@ensioracle1.imag.fr:"
                     + "1521:ensioracle1";
             String user = "ruimyb";
@@ -80,7 +80,7 @@ class Simulation{
         }
     }
 
-    private void disconnectBD(){
+    protected void disconnectBD(){
         try{
             connection.close();
         } catch (Exception e){
@@ -112,6 +112,10 @@ class Test{
         System.out.println(m);
         System.out.print("\n : " + check());
         System.out.println("\n\n");
+
+        Simulation s = new Simulation();
+        s.connectBD();
+        s.disconnectBD();
     }
 
     private static String check(){
