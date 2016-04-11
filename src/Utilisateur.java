@@ -28,6 +28,16 @@ public class Utilisateur {
     private ListeDActionDetenus portefeuille; /**< User's portfolio*/
     private ListeDActionFavoris favoris; /**< User's list of favorite assets*/
 
+    // CONSTRUCTOR //
+    public Utilisateur(int ID, String nom, int argent){
+        this.ID = ID;
+        this.nom = nom;
+        this.argent = argent;
+
+        portefeuille = new ListeDActionDetenus();
+        favoris = new ListeDActionFavoris();
+    }
+
     // GETTERS & SETTERS //
 
     public int getID() {
@@ -44,24 +54,48 @@ public class Utilisateur {
 
     // METHODS //
 
-    public void acheter(int IDAction, int quantite) {
-
+    public void acheter(int IDAction, int quantite) throws Exception{
+        // Cas où il n'a pas suffisament de fond
+        if (quantite*Marche.getValeur(IDAction) > argent){
+            throw new Exception("\n||Exception : Vous n'avez pas assez de fond pour faire cet achat\n");
+        }
+        // Achat des actions
+        portefeuille.ajout(IDAction,quantite);
     }
 
-    public void vendre(int IDAction, int quantite) {
+    public void vendre(int position, int quantite) {
+        // Vente de la quantite d'action donnée
+        try{
+            argent += portefeuille.retirer(position,quantite);
+        }// Cas de la vente à découvert ou d'une position trop grande
+        catch (Exception e){
+            System.out.println(e.getMessage() + "==> Veuillez reformuler votre demande \n");
+        }
+    }
 
+    public void ajoutFav(int IDAction){
+        favoris.ajout(IDAction,0);
+    }
+
+    public void retirerFav(int position){
+        try{
+            favoris.retirer(position,0);
+        }// Cas d'une position trop grande
+        catch (Exception e){
+            System.out.println(e.getMessage() + "==> Veuillez reformuler votre demande\n");
+        }
     }
 
     public void afficherPortefeuille() {
-
+        System.out.println(portefeuille.toString());
     }
 
     public void afficherFavoris() {
-
+        System.out.println(favoris.toString());
     }
 
     public void afficherHistorique() {
-
+        //TODO : REQUETE SGBD
     }
 
 }
