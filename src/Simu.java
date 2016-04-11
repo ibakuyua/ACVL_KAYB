@@ -90,12 +90,14 @@ class Simulation{
     }
 
     protected void initBD(){
+
         try{
             //Statement stmt = connection.createStatement();
         } catch (Exception e){
             System.err.println("FAIL");
             e.printStackTrace();
         }
+
 
     }
     //TODO : Mettre les fonctions nécessaires à la fonction jouer ici en private
@@ -108,11 +110,17 @@ class Test{
         // Instance d'un marché
         System.out.print("\n\n 1) Instance d'un marché : ");
         Marche m = new Marche("AllMarket", 0, 10);
+        Simulation s = new Simulation(); 
         assert m != null : "La création d'un objet Marche n'a pas fonctionné" + failed();
         assert m.getNom().equals("AllMarket") : "Le constructeur de Marche ne rentre pas le nom" + failed();
         assert m.getNombreActions() == 10 : "Le constructeur de Marche ne rentre pas le bon nombre d'action" + failed();
         assert m.getTourCour() == 0 : "Le constructeur de Marche ne rentre pas le bon tour courant" + failed();
         System.out.print(check());
+        s.connectBD(); 
+        System.out.println("Connection à la BD OK"); 
+        assert s.connection == null ; 
+        s.disconnectBD(); 
+        System.out.println("Déconnection à la BD OK"); 
         // Affichage marché
         System.out.println("\n\n 2) Affichage du marché créé : \n");
         System.out.println(m);
