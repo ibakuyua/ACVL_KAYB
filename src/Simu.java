@@ -89,7 +89,13 @@ class Simulation{
         }
     }
 
-    private void initBD(){
+    protected void initBD(){
+        try{
+            //Statement stmt = connection.createStatement();
+        } catch (Exception e){
+            System.err.println("FAIL");
+            e.printStackTrace();
+        }
 
     }
     //TODO : Mettre les fonctions nécessaires à la fonction jouer ici en private
@@ -115,6 +121,7 @@ class Test{
 
         Simulation s = new Simulation();
         s.connectBD();
+        s.initBD();
         s.disconnectBD();
     }
 
