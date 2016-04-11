@@ -10,6 +10,9 @@
  */
 
 import java.util.Scanner;
+import java.sql.*;
+import java.util.*;
+import java.io.*;
 
 /**
  * \class Simu
@@ -18,6 +21,8 @@ import java.util.Scanner;
  * \details Main of our program
  */
 public class Simu {
+
+
     public static void main (String[] args){
         Scanner sc = new Scanner(System.in);
         System.out.println("\n=========================================================\n" +
@@ -49,11 +54,44 @@ public class Simu {
 }
 
 class Simulation{
+
+    //atribut
+    Connection connection = null;
+
+    //Methodes
     protected static void jouer(){
         // TODO : Mettre la fonction de jeu ici
         System.out.println("\n\033[31m[Fonction jeu à implémenter]\033[m\n");
     }
 
+    private void connectBD(){
+        //Connection BD
+        try {
+            //DriverManager.registerDriver(new oracle.driver.OracleDriver());
+            String url = "jdbc:oracle:thin:@ensioracle1.imag.fr:"
+                    + "1521:ensioracle1";
+            String user = "ruimyb";
+            String passwd = "ruimyb";
+
+            connection = DriverManager.getConnection(url, user, passwd);
+        } catch (SQLException e){
+            System.err.println("FAILED");
+            e.printStackTrace();
+        }
+    }
+
+    private void disconnectBD(){
+        try{
+            connection.close();
+        } catch (Exception e){
+            System.err.println("FAIL");
+            e.printStackTrace();
+        }
+    }
+
+    private void initBD(){
+
+    }
     //TODO : Mettre les fonctions nécessaires à la fonction jouer ici en private
 }
 
