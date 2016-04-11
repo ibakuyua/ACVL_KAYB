@@ -1,0 +1,37 @@
+####################################
+# README : TP ACVL
+#
+# Simulation d'un jeu boursier
+#
+# Ruimy Benjamin
+# Ibakuyumcu Arnaud
+# Voong Kwan
+# Rattanatray Ayutaya
+#
+# ENSIMAG
+#
+# 11 Avril 2016
+#
+###################################
+
+******* Partie Makefile
+
+O) Compiler le projet (documentation + source)
+	
+	make
+
+O) Jouer au jeu
+
+	make play
+
+O) Lire la documentation
+
+	make doc
+
+O) Nettoyer les objets créés
+
+	make clean
+
+************************************
+
+******* Partie ...
