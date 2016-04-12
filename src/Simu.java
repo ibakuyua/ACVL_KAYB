@@ -64,7 +64,45 @@ class Simulation{
         Marche Market = new Marche("Market", 0, 48);
         ListeDActionDetenus L = new ListeDActionDetenus();
 
+        Rules();
+        //initBD();
+        while(Market.getTourCour() < 52){
 
+            boolean b = true;
+            while(b == true){
+                System.out.println("Quelle action voulez vous faire ? \n" +
+                        "1. Regarder mon portefeuille \n" +
+                        "2. Regarder les actions disponibles\n" +
+                        "3. Acheter une action\n" +
+                        "4. Vendre une action \n" +
+                        "5. Passer au tour suivant\n");
+                Scanner sc = new Scanner(System.in);
+                int a = sc.nextInt();
+
+                switch (a){
+                    case 1:
+                        System.out.println("\n\n" + L.toString() + "\n\n" );
+                        break;
+                    case 2:
+                        System.out.println("\n\n" + Market.toString() + "\n\n");
+                        break;
+                    case 3:
+                        //TODO Implémenter l'achat
+                        System.out.println("\n\n" + "Fonction NON IMPLEMENTEE" + "\n\n");
+                        break;
+                    case 4:
+                        System.out.println("\n\n" + "Fonction NON IMPLEMENTEE" + "\n\n");
+                        break;
+                    case 5:
+                        b = false;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            Market.nextLap();
+        }
 
 
 
@@ -75,7 +113,7 @@ class Simulation{
 
 
 
-    public void initBD(){
+    public static void initBD(){
         Connection connection = null;
 
 
@@ -126,7 +164,7 @@ class Simulation{
     }
 
 
-    protected void Rules(){
+    protected static void Rules(){
         System.out.println("\n" +
                 "033[31m[RULES]033[m\n");
     }
@@ -153,6 +191,9 @@ class Test{
 
         s.initBD();
         m.nextLap();
+        m.nextLap();
+        m.nextLap();
+
         // Affichage marché
         System.out.println("\n\n 2) Affichage du marché créé : \n");
         System.out.println(m);
