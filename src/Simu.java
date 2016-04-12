@@ -74,6 +74,58 @@ class Simulation{
     }
 
 
+
+    public void initBD(){
+        Connection connection = null;
+
+
+        //Connection BD
+        try {
+            DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+            String url = "jdbc:oracle:thin:@ensioracle1.imag.fr:"
+                    + "1521:ensioracle1";
+            String user = "ruimyb";
+            String passwd = "ruimyb";
+
+            connection = DriverManager.getConnection(url, user, passwd);
+        } catch (SQLException e){
+            System.err.println("FAILED");
+            e.printStackTrace();
+        }
+
+
+        int a = 0;
+        try{
+            Statement stmt = connection.createStatement();
+            String setCours;
+            for(int i = 1; i < 52; i++){
+                for(int j = 0; j < 48; j++){
+                    a = (int)(Math.random()*100);
+                    setCours = "UPDATE ACTION SET VALUE" + i + " = " + a + " WHERE IDACTION = " + j ;
+                    stmt.executeQuery(setCours);
+                }
+            }
+
+
+        } catch (Exception e){
+            System.err.println("FAIL");
+            e.printStackTrace();
+        }
+
+
+
+
+        try{
+            connection.close();
+        } catch (Exception e){
+            System.err.println("FAIL");
+            e.printStackTrace();
+        }
+
+
+    }
+
+
     protected void Rules(){
         System.out.println("\n" +
                 "033[31m[RULES]033[m\n");
@@ -99,7 +151,7 @@ class Test{
         assert m.getTourCour() == 0 : "Le constructeur de Marche ne rentre pas le bon tour courant" + failed();
         System.out.print(check());
 
-
+        s.initBD();
         m.nextLap();
         // Affichage marché
         System.out.println("\n\n 2) Affichage du marché créé : \n");

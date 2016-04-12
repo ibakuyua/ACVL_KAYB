@@ -63,6 +63,7 @@ public class Marche {
     //SETTER
 
     public void nextLap(){
+        tourCour++;
         connectBD();
         int i = 0;
         try{
@@ -78,8 +79,8 @@ public class Marche {
             e.printStackTrace();
         }
         disconnectBD();
-        tourCour++;
     }
+
 
 
 
