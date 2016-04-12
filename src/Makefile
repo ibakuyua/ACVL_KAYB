@@ -31,7 +31,7 @@ FILE_OUT=$(CLASS:%=$(BIN_DIR)/%.class)\
 all:$(FILE_OUT)
 
 $(BIN_DIR)/%.class:$(SRC_DIR)/%.java
-	javac -d $(BIN_DIR) -classpath $(SRC_DIR) $<
+	javac -d $(BIN_DIR) -classpath  $(SRC_DIR):$(SRC_DIR)/ojdbc7.jar $<
 
 play:all
 	java -classpath $(BIN_DIR) $(MAIN)
