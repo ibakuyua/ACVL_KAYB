@@ -9,6 +9,8 @@
  * \date 10 April 2016
  */
 
+import java.sql.*;
+
 /**
  * \class ListeDAction.Marche
  * \brief Representation of the market
@@ -24,21 +26,95 @@ public class Marche {
     private int nombreActions; /**< Number of assets in the market*/
     private static Action[] actions; /**< Assets contained in the market */
     private static double[] cours; /**< Asset's value at t=tourCour*/
+    private Connection connection = null;
 
     // CONSTRUCTOR //
 
     // TODO : Rajouter en argument les valeurs choppées dans la BD pour cours et actions
     public Marche(String nom, int tourCour,int nombreActions){
-        this.nom = nom;
-        this.nombreActions = nombreActions;
-        actions = new Action[nombreActions];
-        cours = new double[nombreActions];
-        for (int i = 0; i < nombreActions; i++){
-            actions[i] = new Action(i, 1, "test", 50.5);
-            cours[i] = 50.5;
+
+        connectBD();
+        int i = 0;
+        try{
+            actions = new Action[nombreActions];
+            cours = new double[nombreActions];
+            Statement stmt = connection.createStatement();
+            String getActions = "SELECT * FROM ACTION";
+            ResultSet rsActions = stmt.executeQuery(getActions);
+            while(rsActions.next()) {
+                cours[i] = rsActions.getInt("VALUE1");
+                actions[i] = new Action(rsActions.getInt("IDACTION"),rsActions.getInt("QUANTITY"),
+                                                                rsActions.getString("NAME"),rsActions.getInt("VALUE1"));
+                i++;
+            }
+            this.nombreActions = nombreActions;
+            this.tourCour = tourCour;
+            this.nom = nom;
+        } catch (Exception e){
+            System.err.println("FAIL");
+            e.printStackTrace();
         }
-        this.tourCour = tourCour;
+        disconnectBD();
+
     }
+
+
+
+    //SETTER
+
+    public void nextLap(){
+        connectBD();
+        int i = 0;
+        try{
+            Statement stmt = connection.createStatement();
+            String getActions = "SELECT * FROM ACTION";
+            ResultSet rsActions = stmt.executeQuery(getActions);
+            while(rsActions.next()) {
+                cours[i] = rsActions.getInt("VALUE" + (this.getTourCour() + 1));
+                i++;
+            }
+        } catch (Exception e){
+            System.err.println("FAIL");
+            e.printStackTrace();
+        }
+        disconnectBD();
+        tourCour++;
+    }
+
+
+
+
+
+
+
+
+    protected void connectBD(){
+        //Connection BD
+        try {
+            DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+            String url = "jdbc:oracle:thin:@ensioracle1.imag.fr:"
+                    + "1521:ensioracle1";
+            String user = "ruimyb";
+            String passwd = "ruimyb";
+
+            connection = DriverManager.getConnection(url, user, passwd);
+        } catch (SQLException e){
+            System.err.println("FAILED");
+            e.printStackTrace();
+        }
+    }
+
+    protected void disconnectBD(){
+        try{
+            connection.close();
+        } catch (Exception e){
+            System.err.println("FAIL");
+            e.printStackTrace();
+        }
+    }
+
+
+
 
     // GETTERS //
 

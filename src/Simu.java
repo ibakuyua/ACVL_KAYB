@@ -55,51 +55,33 @@ public class Simu {
 
 class Simulation{
 
-    //atribut
-    Connection connection = null;
 
     //Methodes
     protected static void jouer(){
         // TODO : Mettre la fonction de jeu ici
         System.out.println("\n\033[31m[Fonction jeu à implémenter]\033[m\n");
-    }
 
-    protected void connectBD(){
-        //Connection BD
-        try {
-            DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
-            String url = "jdbc:oracle:thin:@ensioracle1.imag.fr:"
-                    + "1521:ensioracle1";
-            String user = "ruimyb";
-            String passwd = "ruimyb";
+        Marche Market = new Marche("Market", 0, 48);
+        ListeDActionDetenus L = new ListeDActionDetenus();
 
-            connection = DriverManager.getConnection(url, user, passwd);
-        } catch (SQLException e){
-            System.err.println("FAILED");
-            e.printStackTrace();
-        }
-    }
 
-    protected void disconnectBD(){
-        try{
-            connection.close();
-        } catch (Exception e){
-            System.err.println("FAIL");
-            e.printStackTrace();
-        }
-    }
 
-    protected void initBD(){
 
-        try{
-            //Statement stmt = connection.createStatement();
-        } catch (Exception e){
-            System.err.println("FAIL");
-            e.printStackTrace();
-        }
+
+
 
 
     }
+
+
+    protected void Rules(){
+        System.out.println("\n" +
+                "033[31m[RULES]033[m\n");
+    }
+
+
+
+
     //TODO : Mettre les fonctions nécessaires à la fonction jouer ici en private
 }
 
@@ -109,28 +91,22 @@ class Test{
         System.out.println("\n\n################## BATTERIE DE TESTS #####################");
         // Instance d'un marché
         System.out.print("\n\n 1) Instance d'un marché : ");
-        Marche m = new Marche("AllMarket", 0, 10);
+        Marche m = new Marche("AllMarket", 0, 48);
         Simulation s = new Simulation(); 
         assert m != null : "La création d'un objet Marche n'a pas fonctionné" + failed();
         assert m.getNom().equals("AllMarket") : "Le constructeur de Marche ne rentre pas le nom" + failed();
         assert m.getNombreActions() == 10 : "Le constructeur de Marche ne rentre pas le bon nombre d'action" + failed();
         assert m.getTourCour() == 0 : "Le constructeur de Marche ne rentre pas le bon tour courant" + failed();
         System.out.print(check());
-        s.connectBD(); 
-        System.out.println("Connection à la BD OK"); 
-        assert s.connection == null ; 
-        s.disconnectBD(); 
-        System.out.println("Déconnection à la BD OK"); 
+
+
+        m.nextLap();
         // Affichage marché
         System.out.println("\n\n 2) Affichage du marché créé : \n");
         System.out.println(m);
         System.out.print("\n : " + check());
         System.out.println("\n\n");
 
-        Simulation s = new Simulation();
-        s.connectBD();
-        s.initBD();
-        s.disconnectBD();
     }
 
     private static String check(){
