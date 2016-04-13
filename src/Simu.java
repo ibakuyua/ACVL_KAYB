@@ -267,7 +267,6 @@ class Simulation{
         }
 
         // Initialisation
-        int a = 0;
         try{
             System.out.println("\nTIME /" + nbreTour + " : ");
             Statement stmt = connection.createStatement();
@@ -279,8 +278,8 @@ class Simulation{
             String setCours;
             for(int i = 1; i <= nbreTour; i++){
                 for(int j = 0; j < nbreAction; j++){
-                    a = (int)(Math.random()*100);
-                    setCours = "UPDATE ACTION SET VALUE" + i + " = " + a + " WHERE IDACTION = " + j ;
+                    double[][] a = PontBrownien.simuler(nbreTour,nbreAction);
+                    setCours = "UPDATE ACTION SET VALUE" + i + " = " + a[i-1][j] + " WHERE IDACTION = " + j ;
                     stmt.executeQuery(setCours);
                 }
                 System.out.print(i+"..");
@@ -318,6 +317,46 @@ class Simulation{
                 "\033[31m[RULES]\033[m\n");
     }
 
+}
+
+/**
+ * \class PontBrownien
+ * \brief Permit to simulate a Brownian Motion for assets value
+ */
+class PontBrownien{
+    private static double[] s0 = spotValue();
+    public static double [][] simuler(int nbreTour, int nbreAction){
+        double[][] r = new double[nbreAction][nbreTour];
+        for (int i = 0; i<nbreAction; i++){
+            // Traitement de chaque action
+            // Initialisation des deux extrémités
+            r[i][0] = s0[i];
+            r[i][nbreTour-1] = s0[i] + normal(0,nbreTour);
+            //recPB(0,nbreTour-1,r,i);
+        }
+        return r;
+    }
+
+    private static double normal(double m, double v){
+        Random rand = new Random();
+        double r = rand.nextGaussian();
+        return m + Math.sqrt(v)*r;
+    }
+
+    //TODO
+    //private static recPB
+
+    private static double[] spotValue(){
+        double [] r = new double[48];
+        r[0] = 0; r[1] = 0; r[2] = 0; r[3] = 0; r[4] = 0; r[5] = 0; r[6] = 0;
+        r[7] = 0; r[8] = 0; r[9] = 0; r[10] = 0; r[11] = 0; r[12] = 0; r[13] = 0;
+        r[14] = 0; r[15] = 0; r[16] = 0; r[17] = 0; r[18] = 0; r[19] = 0; r[20] = 0;
+        r[21] = 0; r[22] = 0; r[23] = 0; r[24] = 0; r[25] = 0; r[26] = 0; r[27] = 0;
+        r[28] = 0; r[29] = 0; r[30] = 0; r[31] = 0; r[32] = 0; r[33] = 0; r[34] = 0;
+        r[35] = 0; r[36] = 0; r[37] = 0; r[38] = 0; r[39] = 0; r[40] = 0; r[41] = 0;
+        r[42] = 0; r[43] = 0; r[44] = 0; r[45] = 0; r[46] = 0; r[47] = 0; r[48] = 0;
+        return r;
+    }
 }
 
 /**
