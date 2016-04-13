@@ -39,7 +39,7 @@ public class ListeDActionDetenus extends ListeDAction{
      */
     @Override
     public String toString(){
-        String s = "Portefeuille utilisateur : " + getNombreAction() + " actions.\n";
+        String s = "Portefeuille : " + getNombreAction() + " actions.\n";
         int pos = 1;
         for (Action i : actions){
             s += "\n" + pos + ") ID " + i.getIDAction() + " : " + i.getNom();

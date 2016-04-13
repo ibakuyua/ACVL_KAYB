@@ -88,8 +88,10 @@ class Simulation{
         rules();
         // Création du marché (unique en V1)
         Marche Market;
+        Connection connection;
         try{
-            Market = new Marche("Market", 0, nombreAction,initBD(nombreAction,nombreTour));
+            connection = initBD(nombreAction,nombreTour);
+            Market = new Marche("Market", 0, nombreAction,connection);
         }catch (Exception e){
             e.printStackTrace();
             System.err.println("\n\nProblème de connexion BD (VPN Activé ?)\n");
@@ -156,6 +158,9 @@ class Simulation{
             }
         }
         System.out.println("\n\n\t ## PLUS VALUE FINALE : " + (user.getArgent()-cash) + " euros ##\n");
+
+        // Fermeture de la BD //
+        closeBD(connection);
     }
 
     // FONCTIONNALITES DU JEU //
@@ -169,12 +174,12 @@ class Simulation{
         Scanner sc = new Scanner(System.in);
         System.out.print("\nQuelle action voulait vous acheter ? ID : ");
         int ID = sc.nextInt();
-        System.out.print("\nQuantité ? : ");
+        System.out.print("\nQuantité de " + Marche.getNom(ID) + " à " + Marche.getValeur(ID) + " euros ? : ");
         int qte = sc.nextInt();
         try {
             user.acheter(ID, qte);
         }catch(Exception e){
-            System.out.println("\033[31m[FAILED]\033[m " + e.getMessage());
+            System.out.println("\n\033[31m[FAILED]\033[m " + e.getMessage());
         }
     }
 
@@ -252,8 +257,10 @@ class Simulation{
             String passwd = "ruimyb";
 
             connection = DriverManager.getConnection(url, user, passwd);
+            System.out.println("\n\033[34m[CONNECTION CHECK]\033[m");
+
         } catch (SQLException e){
-            System.err.println("\n\033[31m[FAILED]\033[m");
+            System.err.println("\n\033[31m[CONNECTION FAILED]\033[m\n");
             e.printStackTrace();
         }
 
@@ -263,7 +270,7 @@ class Simulation{
             System.out.println("\nTIME /" + nbreTour + " : ");
             Statement stmt = connection.createStatement();
             if (stmt==null){
-                System.err.println("\n\033[31m[FAILED]\033[m");
+                System.err.println("\n\n\033[31m[INITIALISATION FAILED]\033[m");
                 System.out.println("\nProblem to create a statement : Initialization");
                 return null;
             }
@@ -276,15 +283,25 @@ class Simulation{
                 }
                 System.out.print(i+"..");
             }
-            System.out.println("\033[34m[DONE]\033[m");
+            System.out.println("\n\n\033[34m[INITIALISATION DONE]\033[m\n");
 
 
         } catch (Exception e){
-            System.err.println("FAIL");
-            e.printStackTrace();
+            System.err.println("\n\033[31m[INITIALISATION FAIL]\033[m\n");
+            e.printStackTrace(System.err);
         }
 
         return connection;
+    }
+
+    protected static void closeBD(Connection connection){
+        try{
+            connection.close();
+            System.out.println("\n\033[34m[DECONNECTION CHECK]\033[m\n\n");
+        } catch (SQLException e){
+            System.err.println("\n\033[31m[DECONNECTION FAIL]\033[m\n");
+            e.printStackTrace(System.err);
+        }
     }
 
 
@@ -317,8 +334,10 @@ class Test{
         // Instance d'un marché
         System.out.print("\n\n 1) Instance d'un marché : ");
         Marche m;
+        Connection connection;
         try {
-            m = new Marche("AllMarket", 0, nombreAction, Simulation.initBD(nombreAction,nombreTour));
+            connection = Simulation.initBD(nombreAction,nombreTour);
+            m = new Marche("AllMarket", 0, nombreAction, connection) ;
         }catch (Exception e){
             e.printStackTrace();
             System.err.println("\n\n Probleme connexion BD (VPN Activé ?)");
@@ -335,6 +354,8 @@ class Test{
         System.out.println(m);
         System.out.print("\n : " + check());
         System.out.println("\n\n");
+
+        Simulation.closeBD(connection);
 
     }
 
