@@ -16,48 +16,63 @@ import java.io.*;
 
 /**
  * \class Simu
- * \brief Simulation Game
+ * \brief Finance Game
  *
  * \details Main of our program
  */
 public class Simu {
 
 
+    /**
+     * \fn void main(String[] args)
+     * \brief main of the game
+     *
+     * \details Launch the menu : 1) Play ; 2) Test
+     */
     public static void main (String[] args){
         Scanner sc = new Scanner(System.in);
         System.out.println("\n=========================================================\n" +
-                           "\t SIMULATION BOURSIERE\n" +
+                           "\t\t SIMULATION BOURSIERE\n" +
                            "=========================================================\n");
         System.out.println("\n\n** Menu principale : \n");
         System.out.println("\n1) Jouer au jeu");
         System.out.println("\n2) Lancer les tests");
+        System.out.println("\n0) Quitter le jeu");
 
-        boolean bonChoix = false;
-        while(!bonChoix) {
+        boolean mauvaisChoix = false;
+        do {
             System.out.print("\n\n===> Choix : ");
             int choix = sc.nextInt();
 
             switch (choix) {
                 case 1:
                     Simulation.jouer();
-                    bonChoix = true;
                     break;
                 case 2:
                     Test.lancer();
-                    bonChoix = true;
+                    break;
+                case 0:
                     break;
                 default:
                     System.out.println("\n !!!! Vous n'avez pas rentré un choix entre 1 et 2");
             }
-        }
+        }while(mauvaisChoix);
         System.out.println("\n\n###### FIN DU JEU #######\n\n");
     }
 }
 
+/**
+ * \class Simulation
+ * \brief Permit to simulate the game
+ */
 class Simulation{
 
+    //METHODS//
 
-    //Methodes
+    /**
+     * \fn void jouer()
+     * \brief Principal function of the game
+     */
     protected static void jouer(){
         // VARIABLE GLOBALE DE JEU //
         final int nombreTour = 12;
@@ -68,6 +83,8 @@ class Simulation{
                             +"*** Taper sur une touche une fois que c'est fait");
         sc.nextLine();
 
+        // Affichage des règles pendant la création de la base
+        rules();
         // Création du marché (unique en V1)
         Marche Market;
         try{
@@ -84,9 +101,8 @@ class Simulation{
         Utilisateur user = new Utilisateur(1,nom,20000);
         System.out.println("\n\n+ Création du joueur : " + user.getNom() + " effectuée. Cash initial : " + user.getArgent() + " euros.");
 
-        Rules();
         boolean exit = false;
-        while(Market.getTourCour() < 52 || !exit){
+        while(Market.getTourCour() < 52 && !exit){
 
             System.out.println("\n MENU DES OPERATIONS : \n\n" +
                     "1. Regarder mon portefeuille \n" +
@@ -95,8 +111,10 @@ class Simulation{
                     "4. Acheter une action\n" +
                     "5. Vendre une action \n" +
                     "6. Surveiller une action\n" +
-                    "7. Passer au tour suivant\n" +
-                    "8. Quitter le jeu\n");
+                    "7. Ne plus surveiller une action\n" +
+                    "8. Consulter son historique\n\n" +
+                    "9. Passer au tour suivant\n\n" +
+                    "0. Quitter le jeu\n");
             System.out.print("Votre choix : ");
             int a = sc.nextInt();
 
@@ -111,27 +129,96 @@ class Simulation{
                     System.out.println("\n\n" + Market.toString() + "\n\n");
                     break;
                 case 4:
-                    System.out.println("\n\n" + "\033[31m[Fonction NON IMPLEMENTEE]\033[m" + "\n\n");
+                    achatAction(user);
                     break;
                 case 5:
-                    System.out.println("\n\n" + "\033[31m[Fonction NON IMPLEMENTEE]\033[m" + "\n\n");
+                    venteAction(user);
                     break;
                 case 6:
-                    System.out.println("\n\n" + "\033[31m[Fonction NON IMPLEMENTEE]\033[m" + "\n\n");
+                    surveillerAction(user);
+                    break;
                 case 7:
-                    Market.nextLap();
+                    notSurveillerAction(user);
                     break;
                 case 8:
+                    consulterHist(user);
+                    break;
+                case 9:
+                    Market.nextLap();
+                    break;
+                case 0:
                     exit = true;
                     break;
                 default:
-                    System.out.println("\n\n!!!!!! Vous n'avez pas rentré un chiffre entre 1 et 8, veuillez recommencer.\n");
+                    System.out.println("\n\n!!!!!! Vous n'avez pas rentré un chiffre entre 0 et 9, veuillez recommencer.\n");
                     break;
             }
         }
     }
 
-    public static Connection initBD(int nbreAction,int nbreTour){
+    // FONCTIONNALITES DU JEU //
+    /**
+     * \fn void achatAction(Utilisateur user)
+     * \brief Permit an user to buy an asset
+     *
+     * \param Utilisateur user : The user who wants to buy an asset
+     */
+    private static void achatAction(Utilisateur user){
+        System.out.println("\n\n" + "\033[31m[Fonction NON IMPLEMENTEE]\033[m" + "\n\n");
+    }
+
+    /**
+     * \fn void venteAction(Utilisateur user)
+     * \brief Permit an user to sell an asset
+     *
+     * \param Utilisateur user : The user who wants to sell an asset
+     */
+    private static void venteAction(Utilisateur user){
+        System.out.println("\n\n" + "\033[31m[Fonction NON IMPLEMENTEE]\033[m" + "\n\n");
+    }
+
+    /**
+     * \fn void surveillerAction(Utilisateur user)
+     * \brief Permit an user to control an asset
+     *
+     * \param Utilisateur user : The user who wants to control an asset
+     */
+    private static void surveillerAction(Utilisateur user){
+        System.out.println("\n\n" + "\033[31m[Fonction NON IMPLEMENTEE]\033[m" + "\n\n");
+    }
+
+    /**
+     * \fn void notSurveillerAction(Utilisateur user)
+     * \brief Permit to remove a controling asset
+     *
+     * \param Utilisateur user : The user who wants to remove a controling asset
+     */
+     private static void notSurveillerAction(Utilisateur user){
+         System.out.println("\n\n" + "\033[31m[Fonction NON IMPLEMENTEE]\033[m" + "\n\n");
+     }
+
+    /**
+     * \fn void consulterHist(Utilisateur user)
+     * \brief Permit to consult the historic of a user
+     *
+     * \param Utilisateur user : The user who wants to consult his historic
+     */
+    private static void consulterHist(Utilisateur user){
+        System.out.println("\n\n" + "\033[31m[Fonction NON IMPLEMENTEE]\033[m" + "\n\n");
+    }
+
+
+
+    // PARTIE DATABASE //
+    /**
+     * \fn Connection initBD(int nbreAction, int nbreTour)
+     * \brief Permit to connect with the Data Base and initialize it
+     *
+     * \param int nbreAction : The number of Action in the market (<48)
+     * \param int nbreTour : The number of round (<52)
+     * \return Connection : The connection to the Data Base
+     */
+    protected static Connection initBD(int nbreAction,int nbreTour){
         System.out.println("\n\n Initialisation de la BD : Cette étape peux prendre du temps");
         Connection connection = null;
         //Connection BD
@@ -144,15 +231,20 @@ class Simulation{
 
             connection = DriverManager.getConnection(url, user, passwd);
         } catch (SQLException e){
-            System.err.println("FAILED");
+            System.err.println("\n\033[31m[FAILED]\033[m");
             e.printStackTrace();
         }
 
         // Initialisation
         int a = 0;
         try{
-            System.out.println("\nTIME : ");
+            System.out.println("\nTIME /" + nbreTour + " : ");
             Statement stmt = connection.createStatement();
+            if (stmt==null){
+                System.err.println("\n\033[31m[FAILED]\033[m");
+                System.out.println("\nProblem to create a statement : Initialization");
+                return null;
+            }
             String setCours;
             for(int i = 1; i < nbreTour; i++){
                 for(int j = 0; j < nbreAction; j++){
@@ -174,14 +266,28 @@ class Simulation{
     }
 
 
-    protected static void Rules(){
+    /**
+     * \fn rules()
+     * \brief rules of the game
+     *
+     * \details Launched at the begining of the game in order to wait for the initialization
+     */
+    private static void rules(){
         System.out.println("\n" +
                 "\033[31m[RULES]\033[m\n");
     }
 
 }
 
+/**
+ * \class Test
+ * \brief Permit to test the class of our game
+ */
 class Test{
+    /**
+     * \fn void lancer()
+     * \brief Launch of the test
+     */
     protected static void lancer(){
         final int nombreAction = 20;
         final int nombreTour = 12;

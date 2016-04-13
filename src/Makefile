@@ -13,7 +13,7 @@
 
 # Definition des variables
 
-CLASS=Action ListeDAction ListeDActionDetenus ListeDActionFavoris \
+CLASS=Action ListeDAction ListeDActionDetenus ListeDActionSurveilles \
       Marche Utilisateur
 
 MAIN=Simu

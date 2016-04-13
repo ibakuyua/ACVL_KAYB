@@ -26,10 +26,21 @@ public class Marche {
     private int nombreActions; /**< Number of assets in the market*/
     private static Action[] actions; /**< Assets contained in the market */
     private static double[] cours; /**< Asset's value at t=tourCour*/
-    private Connection connection;
+    private Connection connection; /**< The connection to the DataBase*/
 
     // CONSTRUCTOR //
 
+    /**
+     * \fn Marche(String nom, int tourCour,int nombreActions,Connection connection)
+     * \brief Constructor of a market
+     *
+     * \param String nom : Market's name
+     * \param int tourCour : The current round
+     * \param int nombreActions : The number of action in the market
+     * \param connection : The connection to the database
+     *
+     * \throws Exception in the case of null connection
+     */
     public Marche(String nom, int tourCour,int nombreActions,Connection connection)throws Exception{
         int i = 0;
         this.connection = connection;
@@ -58,10 +69,26 @@ public class Marche {
         }
     }
 
+    // GETTERS //
 
+    public String getNom() {
+        return nom;
+    }
 
-    //SETTER
+    public int getNombreActions() {
+        return nombreActions;
+    }
 
+    public int getTourCour() {
+        return tourCour;
+    }
+
+    // METHODS //
+
+    /**
+     * \fn void nextLap()
+     * \brief Permit to go to the next round
+     */
     public void nextLap(){
         tourCour++;
         int i = 0;
@@ -79,38 +106,43 @@ public class Marche {
         }
     }
 
-
-
-    // GETTERS //
-
-    public String getNom() {
-        return nom;
-    }
-
-    public int getNombreActions() {
-        return nombreActions;
-    }
-
-    public int getTourCour() {
-        return tourCour;
-    }
-
-    // METHODS //
-
+    /**
+     * \fn double getValeur(int IDAction)
+     * \brief Permit to obtain the spot value of an asset
+     *
+     * \param IDAction : The asset identifiant
+     *
+     * \return double : The value of the asset
+     */
     public static double getValeur(int IDAction){
         return cours[IDAction];
     }
 
+    /**
+     * \fn String getNom(int IDAction)
+     * \brief Permit to obtain the name of an asset
+     *
+     * \param int IDAction : The asset identifiant
+     *
+     * \return String : The name of the asset
+     */
     public static String getNom(int IDAction){
         return actions[IDAction].getNom();
     }
 
+    /**
+     * \fn String toString()
+     * \brief Permit to describe the market
+     *
+     * \return String : The description
+     */
     @Override
     public String toString(){
         String s = nom + " : " + nombreActions + " actions\n";
         for (Action i : actions){
-            s += "\n\nID : " + i.getIDAction();
+            s += "\n\nID " + i.getIDAction();
             s += " : " + i.getNom();
+            s += "\n----------------------------------------------";
             s += "\nValeur : " + i.getValeur();
             s += " Evolution : " + i.getEvolution();
             s += "\nPlus-Value => " + i.getPlusValue();

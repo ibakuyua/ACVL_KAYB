@@ -19,12 +19,24 @@ public class ListeDActionDetenus extends ListeDAction{
 
     // CONSTRUCTOR //
 
+    /**
+     * \fn ListeDActionDetenus()
+     * \brief Constructor
+     *
+     * \details Call the super()
+     */
     public ListeDActionDetenus(){
         super();
     }
 
     // METHODS //
 
+    /**
+     * \fn String toString()
+     * \brief Permit to describe the list of detained assets
+     *
+     * \return String : The description
+     */
     @Override
     public String toString(){
         String s = "Portefeuille utilisateur : " + getNombreAction() + " actions.\n";
@@ -41,6 +53,12 @@ public class ListeDActionDetenus extends ListeDAction{
         return s;
     }
 
+    /**
+     * \fn double valeur()
+     * \brief Permit to know the value of the list
+     *
+     * \return double : value of the assets list
+     */
     private double valeur(){
         double r = 0;
         for(Action i : actions){
@@ -49,6 +67,12 @@ public class ListeDActionDetenus extends ListeDAction{
         return r;
     }
 
+    /**
+     * \fn double plusValue()
+     * \brief Permit to know the plusValue of the list
+     *
+     * \return double : plus-value of the assets list
+     */
     private double plusValue(){
         double r = 0;
         for(Action i : actions){

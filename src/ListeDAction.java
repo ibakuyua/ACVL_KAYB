@@ -20,26 +20,64 @@ import java.util.LinkedList;
 
 abstract public class ListeDAction {
     // ATTRIBUTS //
-    protected LinkedList<Action> actions;
+    protected LinkedList<Action> actions; /**<List of assets*/
 
     // CONSTRUCTOR //
+
+    /**
+     * \fn ListeDAction()
+     * \brief Constructor
+     */
     public ListeDAction(){
         actions = new LinkedList<>();
     }
 
     // METHODS //
+
+    /**
+     * \fn abstract String toString()
+     * \brief Description of the list
+     *
+     * \return String : The description
+     *
+     * \details Depends on the list
+     */
     @Override
     abstract public String toString();
 
+    /**
+     * \fn int getNombreAction()
+     * \brief Permit to know how many asset the list contains
+     *
+     * \return int : Number of assets in the list
+     */
     public int getNombreAction(){
         return actions.size();
     }
 
+    /**
+     * \fn void ajout(int IDAction, int qte)
+     * \brief Permit to add an asset in the list
+     *
+     * \param int IDAction : The asset to add
+     * \param int qte : The quantity to add
+     */
     public void ajout(int IDAction, int qte){
         Action a = new Action(IDAction,qte,Marche.getNom(IDAction),Marche.getValeur(IDAction));
         actions.add(a);
     }
 
+    /**
+     * \fn double retirer(int position, int qte)
+     * \brief Permit to remove a quantity of asset out of the list
+     *
+     * \param int position : position in the list
+     * \param int qte : quantity of removing
+     *
+     * \return double : The value of this removing in euros
+     *
+     * \throws Exception in the case of removing too much
+     */
     public double retirer(int position, int qte) throws Exception{
         // Cas où l'action a retirer n'existe pas
         if (position > actions.size()){

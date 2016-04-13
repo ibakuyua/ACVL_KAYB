@@ -26,16 +26,25 @@ public class Utilisateur {
     private String nom; /**< User's name*/
     private int argent; /**< User's Cash */
     private ListeDActionDetenus portefeuille; /**< User's portfolio*/
-    private ListeDActionFavoris favoris; /**< User's list of favorite assets*/
+    private ListeDActionSurveilles favoris; /**< User's list of favorite assets*/
 
     // CONSTRUCTOR //
+
+    /**
+     * \fn Utilisateur(int ID, String nom, int argent)
+     * \brief Constructor of a Utilisateur
+     *
+     * \param int ID : The ID of the user
+     * \param String nom : The name of the user
+     * \param double argent : Initial mountant of the user
+     */
     public Utilisateur(int ID, String nom, int argent){
         this.ID = ID;
         this.nom = nom;
         this.argent = argent;
 
         portefeuille = new ListeDActionDetenus();
-        favoris = new ListeDActionFavoris();
+        favoris = new ListeDActionSurveilles();
     }
 
     // GETTERS & SETTERS //
@@ -54,6 +63,14 @@ public class Utilisateur {
 
     // METHODS //
 
+    /**
+     * \fn void acheter(int IDAction, int quantite)
+     * \brief Permit a user to buy an asset
+     *
+     * \param int IDAction : The ID of the asset
+     * \param quantite : The quantity to buy
+     * \throws Exception : If the user doesn't have enough money
+     */
     public void acheter(int IDAction, int quantite) throws Exception{
         // Cas où il n'a pas suffisament de fond
         if (quantite*Marche.getValeur(IDAction) > argent){
@@ -63,6 +80,13 @@ public class Utilisateur {
         portefeuille.ajout(IDAction,quantite);
     }
 
+    /**
+     * \fn void vendre(int position, int quantite)
+     * \brief Permit a user to sell an asset
+     *
+     * \param int position : Position of the asset in the portfolio
+     * \param int quantite : Quantity to sell
+     */
     public void vendre(int position, int quantite) {
         // Vente de la quantite d'action donnée
         try{
@@ -73,10 +97,22 @@ public class Utilisateur {
         }
     }
 
+    /**
+     * \fn void ajoutFav()
+     * \brief Permit to add an asset in order to control it
+     *
+     * \param int IDAction : The asset to control
+     */
     public void ajoutFav(int IDAction){
         favoris.ajout(IDAction,0);
     }
 
+    /**
+     * \fn void retirerFav(int position)
+     * \brief Permit to remove an asset of the list of controling assets
+     *
+     * \param int position : Position of the asset to remove
+     */
     public void retirerFav(int position){
         try{
             favoris.retirer(position,0);
@@ -86,16 +122,35 @@ public class Utilisateur {
         }
     }
 
+    /**
+     * \fn String toStringPortefeuille()
+     * \brief Permit to describe the portfolio
+     *
+     * \return String : The description
+     */
     public String toStringPortefeuille() {
         return portefeuille.toString();
     }
 
+    /**
+     * \fn String toStringFavoris()
+     * \brief Permit to describe the controling assets
+     *
+     * \return String : The description
+     */
     public String toStringFavoris() {
         return favoris.toString();
     }
 
-    public void afficherHistorique() {
+    /**
+     * \fn String toStringHistorique()
+     * \brief Permit to describe the different event about the user
+     *
+     * \return String : The description
+     */
+    public String toStringHistorique() {
         //TODO : REQUETE SGBD
+        return "";
     }
 
 }
