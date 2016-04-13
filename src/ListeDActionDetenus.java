@@ -47,7 +47,7 @@ public class ListeDActionDetenus extends ListeDAction{
             s += "\n\tQte : " + i.getQuantite() + " à " + i.getInitial() + " €";
             s += "\n\tCours : " + i.getValeur();
             s += " Evolution : " + "\033[" + ((i.getEvolution()<0)?"31m":"33m") + i.getEvolution() + "\033[m %";
-            s += "\n\tPlus-Value : " + i.getPlusValue() + "\n";
+            s += "\n\tPlus-Value : " + "\033[" + ((i.getPlusValue()<0)?"31m":"33m") + i.getPlusValue() + "\033[m \n";
             pos++;
         }
         s += "\n\nValeur portefeuille : " + valeur();

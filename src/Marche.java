@@ -52,8 +52,7 @@ final public class Marche {
             actions = new Action[nombreActions];
             cours = new double[nombreActions];
             Statement stmt = connection.createStatement();
-            //TODO : ORDER BY ID_ACTION pour avoir vraiment 0,1,2 => OutOfIndex sinon
-            String getActions = "SELECT * FROM ACTION";
+            String getActions = "SELECT * FROM ACTION ORDER BY IDaction";
             ResultSet rsActions = stmt.executeQuery(getActions);
             while(rsActions.next() && i<nombreActions) {
                 cours[i] = rsActions.getInt("VALUE1");
@@ -99,8 +98,7 @@ final public class Marche {
         int i = 0;
         try{
             Statement stmt = connection.createStatement();
-            //TODO : ORDER BY ID_ACTION pour avoir vraiment 0,1,2 => OutOfIndex sinon
-            String getActions = "SELECT * FROM ACTION";
+            String getActions = "SELECT * FROM ACTION ORDER BY IDaction";
             ResultSet rsActions = stmt.executeQuery(getActions);
             while(rsActions.next()) {
                 cours[i] = rsActions.getInt("VALUE" + (Marche.getTourCour() + 1));
@@ -150,7 +148,7 @@ final public class Marche {
             s += "\n----------------------------------------------";
             s += "\nValeur : " + i.getValeur();
             s += " Evolution : " + "\033[" + ((i.getEvolution()<0)?"31m":"33m") + i.getEvolution() + "\033[m %";
-            s += "\nPlus-Value => " + i.getPlusValue();
+            s += "\nPlus-Value => " + "\033[" + ((i.getPlusValue()<0)?"31m":"33m") + i.getPlusValue() + "\033[m \n";
         }
         return s;
     }

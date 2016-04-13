@@ -2,5 +2,3 @@ BD : Rajouter Table utilisateur
      Rajouter un IDtransaction => Supprimer la table à chaque lancement ?
 Creation utilisateur ==> Creation dans BD
 Fonction historique
-Mettre des order by
-Couleur selon que l'évolution est+ou-
