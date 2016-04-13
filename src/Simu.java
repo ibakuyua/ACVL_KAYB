@@ -50,6 +50,7 @@ public class Simu {
                     System.out.println("\n !!!! Vous n'avez pas rentré un choix entre 1 et 2");
             }
         }
+        System.out.println("\n\n###### FIN DU JEU #######\n\n");
     }
 }
 
@@ -58,65 +59,76 @@ class Simulation{
 
     //Methodes
     protected static void jouer(){
-        // TODO : Mettre la fonction de jeu ici
-        System.out.println("\n\033[31m[Fonction jeu à implémenter]\033[m\n");
+        // Connexion au VPN obligatoire
+        Scanner sc = new Scanner(System.in);
+        System.out.println("\n*** Veuillez vous connecter au VPN Ensimag pour utiliser la Base de Donnée\n"
+                            +"*** Taper sur une touche une fois que c'est fait");
+        sc.nextLine();
 
-        Marche Market = new Marche("Market", 0, 48);
-        ListeDActionDetenus L = new ListeDActionDetenus();
+        // Création du marché (unique en V1)
+        Marche Market;
+        try{
+            Market = new Marche("Market", 0, 48,initBD());
+        }catch (Exception e){
+            e.printStackTrace();
+            System.err.println("\n\nProblème de connexion BD (VPN Activé ?)\n");
+            return;
+        }
+
+        // Création de l'utilisateur (unique en V1)
+        System.out.print("\n*** Veuillez entrer votre pseudo : ");
+        String nom = sc.nextLine();
+        Utilisateur user = new Utilisateur(1,nom,20000);
+        System.out.println("\n\n+ Création du joueur : " + user.getNom() + "effectuée. Cash initial : " + user.getArgent());
 
         Rules();
-        //initBD();
         while(Market.getTourCour() < 52){
 
-            boolean b = true;
-            while(b == true){
-                System.out.println("Quelle action voulez vous faire ? \n" +
+            boolean exit = false;
+            while(!exit){
+                System.out.println("\n MENU DES OPERATIONS : \n\n" +
                         "1. Regarder mon portefeuille \n" +
-                        "2. Regarder les actions disponibles\n" +
-                        "3. Acheter une action\n" +
-                        "4. Vendre une action \n" +
-                        "5. Passer au tour suivant\n");
-                Scanner sc = new Scanner(System.in);
+                        "2. Regarder les actions surveillées" +
+                        "3. Regarder les actions disponibles\n" +
+                        "4. Acheter une action\n" +
+                        "5. Vendre une action \n" +
+                        "6. Passer au tour suivant\n" +
+                        "7. Quitter le jeu\n");
+                System.out.print("Votre choix : ");
                 int a = sc.nextInt();
 
                 switch (a){
                     case 1:
-                        System.out.println("\n\n" + L.toString() + "\n\n" );
+                        System.out.println("\n\n" + user.toStringPortefeuille() + "\n\n" );
                         break;
                     case 2:
+                        System.out.println("\n\n" + user.toStringFavoris() + "\n\n");
+                    case 3:
                         System.out.println("\n\n" + Market.toString() + "\n\n");
                         break;
-                    case 3:
-                        //TODO Implémenter l'achat
-                        System.out.println("\n\n" + "Fonction NON IMPLEMENTEE" + "\n\n");
-                        break;
                     case 4:
-                        System.out.println("\n\n" + "Fonction NON IMPLEMENTEE" + "\n\n");
+                        //TODO Implémenter l'achat
+                        System.out.println("\n\n" + "\033[31m[Fonction NON IMPLEMENTEE]\033[m" + "\n\n");
                         break;
                     case 5:
-                        b = false;
+                        System.out.println("\n\n" + "033[31m[Fonction NON IMPLEMENTEE]033[m" + "\n\n");
                         break;
+                    case 6:
+                        Market.nextLap();
+                        break;
+                    case 7:
+                        exit = true;
                     default:
+                        System.out.println("\n\n!!!!!! Vous n'avez pas rentré un chiffre entre 1 et 7, veuillez recommencer.\n");
                         break;
                 }
             }
-
-            Market.nextLap();
         }
-
-
-
-
-
-
     }
 
-
-
-    public static void initBD(){
+    public static Connection initBD(){
+        System.out.println("\n\n Initialisation de la BD : Cette étape peux prendre du temps");
         Connection connection = null;
-
-
         //Connection BD
         try {
             DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
@@ -131,7 +143,7 @@ class Simulation{
             e.printStackTrace();
         }
 
-
+        // Initialisation
         int a = 0;
         try{
             Statement stmt = connection.createStatement();
@@ -140,6 +152,7 @@ class Simulation{
                 for(int j = 0; j < 48; j++){
                     a = (int)(Math.random()*100);
                     setCours = "UPDATE ACTION SET VALUE" + i + " = " + a + " WHERE IDACTION = " + j ;
+                    System.out.println(setCours);
                     stmt.executeQuery(setCours);
                 }
             }
@@ -150,29 +163,15 @@ class Simulation{
             e.printStackTrace();
         }
 
-
-
-
-        try{
-            connection.close();
-        } catch (Exception e){
-            System.err.println("FAIL");
-            e.printStackTrace();
-        }
-
-
+        return connection;
     }
 
 
     protected static void Rules(){
         System.out.println("\n" +
-                "033[31m[RULES]033[m\n");
+                "\033[31m[RULES]\033[m\n");
     }
 
-
-
-
-    //TODO : Mettre les fonctions nécessaires à la fonction jouer ici en private
 }
 
 class Test{
@@ -181,7 +180,14 @@ class Test{
         System.out.println("\n\n################## BATTERIE DE TESTS #####################");
         // Instance d'un marché
         System.out.print("\n\n 1) Instance d'un marché : ");
-        Marche m = new Marche("AllMarket", 0, 48);
+        Marche m;
+        try {
+            m = new Marche("AllMarket", 0, 48, Simulation.initBD());
+        }catch (Exception e){
+            e.printStackTrace();
+            System.err.println("\n\n Probleme connexion BD (VPN Activé ?)");
+            return;
+        }
         Simulation s = new Simulation(); 
         assert m != null : "La création d'un objet Marche n'a pas fonctionné" + failed();
         assert m.getNom().equals("AllMarket") : "Le constructeur de Marche ne rentre pas le nom" + failed();
@@ -189,7 +195,6 @@ class Test{
         assert m.getTourCour() == 0 : "Le constructeur de Marche ne rentre pas le bon tour courant" + failed();
         System.out.print(check());
 
-        s.initBD();
         m.nextLap();
         m.nextLap();
         m.nextLap();

@@ -86,12 +86,12 @@ public class Utilisateur {
         }
     }
 
-    public void afficherPortefeuille() {
-        System.out.println(portefeuille.toString());
+    public String toStringPortefeuille() {
+        return portefeuille.toString();
     }
 
-    public void afficherFavoris() {
-        System.out.println(favoris.toString());
+    public String toStringFavoris() {
+        return favoris.toString();
     }
 
     public void afficherHistorique() {

@@ -20,6 +20,7 @@ MAIN=Simu
 
 SRC_DIR=.
 BIN_DIR=../bin
+LIB_DIR=../lib
 
 ##########################
 
@@ -31,10 +32,10 @@ FILE_OUT=$(CLASS:%=$(BIN_DIR)/%.class)\
 all:$(FILE_OUT)
 
 $(BIN_DIR)/%.class:$(SRC_DIR)/%.java
-	javac -d $(BIN_DIR) -classpath  $(SRC_DIR):$(SRC_DIR)/ojdbc7.jar $<
+	javac -d $(BIN_DIR) -classpath $(SRC_DIR):$(LIB_DIR)/ojdbc7.jar $<
 
 play:all
-	java -classpath $(BIN_DIR) $(MAIN)
+	java -classpath $(LIB_DIR)/ojdbc7.jar:$(BIN_DIR) $(MAIN)
 
 clean:
 	rm -rvf $(BIN_DIR)/*

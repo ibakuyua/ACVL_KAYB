@@ -26,17 +26,18 @@
 
 SRC_DIR=src
 BIN_DIR=bin
+LIB_DIR=lib
 DOCU_DIR=docu
 OPEN=firefox
 
 #################################
 
 all:
-	make SRC_DIR=$(SRC_DIR) BIN_DIR=$(BIN_DIR) -f src/Makefile
-	#make DOCU_DIR=$(DOCU_DIR) -f docu/Makefile
+	make SRC_DIR=$(SRC_DIR) LIB_DIR=$(LIB_DIR) BIN_DIR=$(BIN_DIR) -f src/Makefile
+	make DOCU_DIR=$(DOCU_DIR) -f docu/Makefile
 
 play:
-	make play SRC_DIR=$(SRC_DIR) BIN_DIR=$(BIN_DIR) -f src/Makefile
+	make play SRC_DIR=$(SRC_DIR) LIB_DIR=$(LIB_DIR) BIN_DIR=$(BIN_DIR) -f src/Makefile
 
 doc:
 	make doc OPEN=$(OPEN) DOCU_DIR=$(DOCU_DIR) -f docu/Makefile

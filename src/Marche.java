@@ -26,15 +26,18 @@ public class Marche {
     private int nombreActions; /**< Number of assets in the market*/
     private static Action[] actions; /**< Assets contained in the market */
     private static double[] cours; /**< Asset's value at t=tourCour*/
-    private Connection connection = null;
+    private Connection connection;
 
     // CONSTRUCTOR //
 
     // TODO : Rajouter en argument les valeurs choppées dans la BD pour cours et actions
-    public Marche(String nom, int tourCour,int nombreActions){
+    public Marche(String nom, int tourCour,int nombreActions,Connection connection)throws Exception{
 
-        connectBD();
         int i = 0;
+        this.connection = connection;
+        if (this.connection == null){
+            throw new Exception("|| Exception ");
+        }
         try{
             actions = new Action[nombreActions];
             cours = new double[nombreActions];
@@ -54,8 +57,6 @@ public class Marche {
             System.err.println("FAIL");
             e.printStackTrace();
         }
-        disconnectBD();
-
     }
 
 
@@ -64,7 +65,6 @@ public class Marche {
 
     public void nextLap(){
         tourCour++;
-        connectBD();
         int i = 0;
         try{
             Statement stmt = connection.createStatement();
@@ -75,45 +75,9 @@ public class Marche {
                 i++;
             }
         } catch (Exception e){
-            System.err.println("FAIL");
-            e.printStackTrace();
-        }
-        disconnectBD();
-    }
-
-
-
-
-
-
-
-
-
-    protected void connectBD(){
-        //Connection BD
-        try {
-            DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
-            String url = "jdbc:oracle:thin:@ensioracle1.imag.fr:"
-                    + "1521:ensioracle1";
-            String user = "ruimyb";
-            String passwd = "ruimyb";
-
-            connection = DriverManager.getConnection(url, user, passwd);
-        } catch (SQLException e){
-            System.err.println("FAILED");
             e.printStackTrace();
         }
     }
-
-    protected void disconnectBD(){
-        try{
-            connection.close();
-        } catch (Exception e){
-            System.err.println("FAIL");
-            e.printStackTrace();
-        }
-    }
-
 
 
 
@@ -148,8 +112,8 @@ public class Marche {
             s += "\nID : " + i.getIDAction();
             s += " : " + i.getNom();
             s += "\nValeur : " + i.getValeur();
-            s += " : " + i.getEvolution();
-            s += " => " + i.getPlusValue();
+            s += " Evolution : " + i.getEvolution();
+            s += "\nPlus-Value => " + i.getPlusValue();
         }
         return s;
     }
