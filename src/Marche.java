@@ -30,9 +30,7 @@ public class Marche {
 
     // CONSTRUCTOR //
 
-    // TODO : Rajouter en argument les valeurs choppées dans la BD pour cours et actions
     public Marche(String nom, int tourCour,int nombreActions,Connection connection)throws Exception{
-
         int i = 0;
         this.connection = connection;
         if (this.connection == null){
@@ -42,12 +40,13 @@ public class Marche {
             actions = new Action[nombreActions];
             cours = new double[nombreActions];
             Statement stmt = connection.createStatement();
+            //TODO : ORDER BY ID_ACTION pour avoir vraiment 0,1,2 => OutOfIndex sinon
             String getActions = "SELECT * FROM ACTION";
             ResultSet rsActions = stmt.executeQuery(getActions);
-            while(rsActions.next()) {
+            while(rsActions.next() && i<nombreActions) {
                 cours[i] = rsActions.getInt("VALUE1");
                 actions[i] = new Action(rsActions.getInt("IDACTION"),rsActions.getInt("QUANTITY"),
-                                                                rsActions.getString("NAME"),rsActions.getInt("VALUE1"));
+                        rsActions.getString("NAME"),rsActions.getInt("VALUE1"));
                 i++;
             }
             this.nombreActions = nombreActions;
@@ -68,6 +67,7 @@ public class Marche {
         int i = 0;
         try{
             Statement stmt = connection.createStatement();
+            //TODO : ORDER BY ID_ACTION pour avoir vraiment 0,1,2 => OutOfIndex sinon
             String getActions = "SELECT * FROM ACTION";
             ResultSet rsActions = stmt.executeQuery(getActions);
             while(rsActions.next()) {
@@ -109,7 +109,7 @@ public class Marche {
     public String toString(){
         String s = nom + " : " + nombreActions + " actions\n";
         for (Action i : actions){
-            s += "\nID : " + i.getIDAction();
+            s += "\n\nID : " + i.getIDAction();
             s += " : " + i.getNom();
             s += "\nValeur : " + i.getValeur();
             s += " Evolution : " + i.getEvolution();
