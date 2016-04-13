@@ -74,7 +74,7 @@ public class Utilisateur {
     public void acheter(int IDAction, int quantite) throws Exception{
         // Cas où il n'a pas suffisament de fond
         if (quantite*Marche.getValeur(IDAction) > argent){
-            throw new Exception("\n||Exception : Vous n'avez pas assez de fond pour faire cet achat\n");
+            throw new Exception("\n\033[31m[FAIL]\033[m\n||Exception : Vous n'avez pas assez de fond pour faire cet achat\n");
         }
         // Achat des actions
         argent -= portefeuille.ajout(IDAction,quantite);
@@ -93,7 +93,7 @@ public class Utilisateur {
             argent += portefeuille.retirer(position-1,quantite);
         }// Cas de la vente à découvert ou d'une position trop grande
         catch (Exception e){
-            System.out.println(e.getMessage() + "==> Veuillez reformuler votre demande \n");
+            System.out.println(e.getMessage() + " ==> Veuillez reformuler votre demande \n");
         }
     }
 

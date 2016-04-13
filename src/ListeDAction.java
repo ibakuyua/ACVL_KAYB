@@ -97,7 +97,7 @@ abstract public class ListeDAction {
         }
         // Cas où on enlève plus que ce que l'on possède
         else{
-            throw new Exception("\n||Exception : Vous ne pouvez pas vendre à découvert\n");
+            throw new Exception("\n\033[31m[FAIL]\033[m\n||Exception : Vous ne pouvez pas vendre à découvert\n");
         }
         return r;
     }
