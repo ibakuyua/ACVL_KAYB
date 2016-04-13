@@ -56,15 +56,18 @@ abstract public class ListeDAction {
     }
 
     /**
-     * \fn void ajout(int IDAction, int qte)
+     * \fn double ajout(int IDAction, int qte)
      * \brief Permit to add an asset in the list
      *
      * \param int IDAction : The asset to add
      * \param int qte : The quantity to add
+     *
+     * \return double : The amount of this operation
      */
-    public void ajout(int IDAction, int qte){
+    public double ajout(int IDAction, int qte){
         Action a = new Action(IDAction,qte,Marche.getNom(IDAction),Marche.getValeur(IDAction));
         actions.add(a);
+        return qte*Marche.getValeur(IDAction);
     }
 
     /**
@@ -80,7 +83,7 @@ abstract public class ListeDAction {
      */
     public double retirer(int position, int qte) throws Exception{
         // Cas où l'action a retirer n'existe pas
-        if (position > actions.size()){
+        if (position >= actions.size() || position < 0){
             throw new Exception("\n||Exception : Vous ne pouvez retirer une action à cette position");
         }
         double r = actions.get(position).getValeur()*qte;
@@ -89,7 +92,7 @@ abstract public class ListeDAction {
             actions.remove(position);
         }
         // Cas où on enlève qu'une partie des actions
-        else if(actions.get(position).getQuantite() < qte){
+        else if(actions.get(position).getQuantite() > qte){
             actions.get(position).rmvQuantite(qte);
         }
         // Cas où on enlève plus que ce que l'on possède

@@ -77,6 +77,7 @@ class Simulation{
         // VARIABLE GLOBALE DE JEU //
         final int nombreTour = 12;
         final int nombreAction = 48;
+        final double cash = 20000;
         // Connexion au VPN obligatoire
         Scanner sc = new Scanner(System.in);
         System.out.println("\n*** Veuillez vous connecter au VPN Ensimag pour utiliser la Base de Donnée\n"
@@ -98,16 +99,16 @@ class Simulation{
         // Création de l'utilisateur (unique en V1)
         System.out.print("\n*** Veuillez entrer votre pseudo : ");
         String nom = sc.nextLine();
-        Utilisateur user = new Utilisateur(1,nom,20000);
+        Utilisateur user = new Utilisateur(1,nom,cash);
         System.out.println("\n\n+ Création du joueur : " + user.getNom() + " effectuée. Cash initial : " + user.getArgent() + " euros.");
 
         boolean exit = false;
-        while(Market.getTourCour() < 52 && !exit){
+        while(Market.getTourCour() <= nombreTour && !exit){
 
-            System.out.println("\n MENU DES OPERATIONS : \n\n" +
-                    "1. Regarder mon portefeuille \n" +
-                    "2. Regarder les actions surveillées\n" +
-                    "3. Regarder les actions disponibles\n" +
+            System.out.println("\n == MENU DES OPERATIONS : \n\n" +
+                    "1. Consulter mon portefeuille \n" +
+                    "2. Consulter les actions surveillées\n" +
+                    "3. Consulter les actions disponibles sur le marché\n" +
                     "4. Acheter une action\n" +
                     "5. Vendre une action \n" +
                     "6. Surveiller une action\n" +
@@ -154,6 +155,7 @@ class Simulation{
                     break;
             }
         }
+        System.out.println("\n\n\t ## PLUS VALUE FINALE : " + (user.getArgent()-cash) + " euros ##\n");
     }
 
     // FONCTIONNALITES DU JEU //
@@ -164,7 +166,16 @@ class Simulation{
      * \param Utilisateur user : The user who wants to buy an asset
      */
     private static void achatAction(Utilisateur user){
-        System.out.println("\n\n" + "\033[31m[Fonction NON IMPLEMENTEE]\033[m" + "\n\n");
+        Scanner sc = new Scanner(System.in);
+        System.out.print("\nQuelle action voulait vous acheter ? ID : ");
+        int ID = sc.nextInt();
+        System.out.print("\nQuantité ? : ");
+        int qte = sc.nextInt();
+        try {
+            user.acheter(ID, qte);
+        }catch(Exception e){
+            System.out.println("\033[31m[FAILED]\033[m " + e.getMessage());
+        }
     }
 
     /**
@@ -174,7 +185,12 @@ class Simulation{
      * \param Utilisateur user : The user who wants to sell an asset
      */
     private static void venteAction(Utilisateur user){
-        System.out.println("\n\n" + "\033[31m[Fonction NON IMPLEMENTEE]\033[m" + "\n\n");
+        Scanner sc = new Scanner(System.in);
+        System.out.print("\nQuelle action voulait vous vendre ? Position : ");
+        int pos = sc.nextInt();
+        System.out.print("\nQuantité ? : ");
+        int qte = sc.nextInt();
+        user.vendre(pos, qte);
     }
 
     /**
@@ -184,7 +200,10 @@ class Simulation{
      * \param Utilisateur user : The user who wants to control an asset
      */
     private static void surveillerAction(Utilisateur user){
-        System.out.println("\n\n" + "\033[31m[Fonction NON IMPLEMENTEE]\033[m" + "\n\n");
+        Scanner sc = new Scanner(System.in);
+        System.out.print("\nQuelle action voulait vous surveiller ? ID : ");
+        int ID = sc.nextInt();
+        user.ajoutFav(ID);
     }
 
     /**
@@ -194,7 +213,10 @@ class Simulation{
      * \param Utilisateur user : The user who wants to remove a controling asset
      */
      private static void notSurveillerAction(Utilisateur user){
-         System.out.println("\n\n" + "\033[31m[Fonction NON IMPLEMENTEE]\033[m" + "\n\n");
+         Scanner sc = new Scanner(System.in);
+         System.out.print("\nQuelle action voulait vous arreter de surveiller ? Position : ");
+         int pos = sc.nextInt();
+         user.retirerFav(pos);
      }
 
     /**
@@ -246,7 +268,7 @@ class Simulation{
                 return null;
             }
             String setCours;
-            for(int i = 1; i < nbreTour; i++){
+            for(int i = 1; i <= nbreTour; i++){
                 for(int j = 0; j < nbreAction; j++){
                     a = (int)(Math.random()*100);
                     setCours = "UPDATE ACTION SET VALUE" + i + " = " + a + " WHERE IDACTION = " + j ;

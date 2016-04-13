@@ -24,21 +24,21 @@ public class Utilisateur {
     // ATTRIBUTS //
     private int ID; /**< User's ID*/
     private String nom; /**< User's name*/
-    private int argent; /**< User's Cash */
+    private double argent; /**< User's Cash */
     private ListeDActionDetenus portefeuille; /**< User's portfolio*/
     private ListeDActionSurveilles favoris; /**< User's list of favorite assets*/
 
     // CONSTRUCTOR //
 
     /**
-     * \fn Utilisateur(int ID, String nom, int argent)
+     * \fn Utilisateur(int ID, String nom, double argent)
      * \brief Constructor of a Utilisateur
      *
      * \param int ID : The ID of the user
      * \param String nom : The name of the user
      * \param double argent : Initial mountant of the user
      */
-    public Utilisateur(int ID, String nom, int argent){
+    public Utilisateur(int ID, String nom, double argent){
         this.ID = ID;
         this.nom = nom;
         this.argent = argent;
@@ -57,7 +57,7 @@ public class Utilisateur {
         return nom;
     }
 
-    public int getArgent() {
+    public double getArgent() {
         return argent;
     }
 
@@ -77,7 +77,7 @@ public class Utilisateur {
             throw new Exception("\n||Exception : Vous n'avez pas assez de fond pour faire cet achat\n");
         }
         // Achat des actions
-        portefeuille.ajout(IDAction,quantite);
+        argent -= portefeuille.ajout(IDAction,quantite);
     }
 
     /**
@@ -90,7 +90,7 @@ public class Utilisateur {
     public void vendre(int position, int quantite) {
         // Vente de la quantite d'action donnée
         try{
-            argent += portefeuille.retirer(position,quantite);
+            argent += portefeuille.retirer(position-1,quantite);
         }// Cas de la vente à découvert ou d'une position trop grande
         catch (Exception e){
             System.out.println(e.getMessage() + "==> Veuillez reformuler votre demande \n");
@@ -104,7 +104,7 @@ public class Utilisateur {
      * \param int IDAction : The asset to control
      */
     public void ajoutFav(int IDAction){
-        favoris.ajout(IDAction,0);
+        favoris.ajout(IDAction,1);
     }
 
     /**
@@ -115,7 +115,7 @@ public class Utilisateur {
      */
     public void retirerFav(int position){
         try{
-            favoris.retirer(position,0);
+            favoris.retirer(position-1,0);
         }// Cas d'une position trop grande
         catch (Exception e){
             System.out.println(e.getMessage() + "==> Veuillez reformuler votre demande\n");
@@ -129,7 +129,7 @@ public class Utilisateur {
      * \return String : The description
      */
     public String toStringPortefeuille() {
-        return portefeuille.toString();
+        return nom + "\n" + portefeuille.toString() + "\n\nCash disponible : " + argent + " euros";
     }
 
     /**

@@ -42,10 +42,12 @@ public class ListeDActionDetenus extends ListeDAction{
         String s = "Portefeuille utilisateur : " + getNombreAction() + " actions.\n";
         int pos = 1;
         for (Action i : actions){
-            s += "\n" + pos + ") ID : " + i.getIDAction() + " : " + i.getNom();
-            s += "\nQte : " + i.getQuantite() + " à " + i.getInitial() + " €";
-            s += "\nCours : " + i.getValeur() + " : " + i.getEvolution() + "%";
-            s += "Plus-Value : " + i.getPlusValue() + "\n";
+            s += "\n" + pos + ") ID " + i.getIDAction() + " : " + i.getNom();
+            s += "\n----------------------------------------------";
+            s += "\n\tQte : " + i.getQuantite() + " à " + i.getInitial() + " €";
+            s += "\n\tCours : " + i.getValeur();
+            s += " EVOLUTION : " + i.getEvolution() + "%";
+            s += "\n\tPlus-Value : " + i.getPlusValue() + "\n";
             pos++;
         }
         s += "\n\nValeur portefeuille : " + valeur();

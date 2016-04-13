@@ -1,0 +1,4 @@
+Creation utilisateur ==> Creation dans BD
+Achat, vente ==> Tableau transaction
+Fonction historique
+Mettre des order by
