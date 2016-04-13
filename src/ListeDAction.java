@@ -101,4 +101,16 @@ abstract public class ListeDAction {
         }
         return r;
     }
+
+    /**
+     * \fn int getIDAction(int position)
+     * \brief Permit to give the ID of an asset at the position
+     *
+     * \param int position : Position of the asset in the list
+     *
+     * \return int The ID of the asset
+     */
+    int getIDAction(int position){
+        return actions.get(position).getIDAction();
+    }
 }

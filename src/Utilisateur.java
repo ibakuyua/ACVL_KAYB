@@ -9,6 +9,8 @@
  * \date 10 April 2016
  */
 
+import java.beans.Statement;
+
 /**
  * \class Utilisateur
  * \brief Permit to represent an user
@@ -78,6 +80,8 @@ public class Utilisateur {
         }
         // Achat des actions
         argent -= portefeuille.ajout(IDAction,quantite);
+        // Mettre dans l'historique
+        //putHistorique(0,ID,IDAction,quantite);
     }
 
     /**
@@ -91,6 +95,7 @@ public class Utilisateur {
         // Vente de la quantite d'action donnée
         try{
             argent += portefeuille.retirer(position-1,quantite);
+            //putHistorique(ID,0,portefeuille.getIDAction(position-1),quantite);
         }// Cas de la vente à découvert ou d'une position trop grande
         catch (Exception e){
             System.out.println(e.getMessage() + " ==> Veuillez reformuler votre demande \n");
@@ -115,7 +120,7 @@ public class Utilisateur {
      */
     public void retirerFav(int position){
         try{
-            favoris.retirer(position-1,0);
+            favoris.retirer(position-1,1);
         }// Cas d'une position trop grande
         catch (Exception e){
             System.out.println(e.getMessage() + "==> Veuillez reformuler votre demande\n");
@@ -151,6 +156,24 @@ public class Utilisateur {
     public String toStringHistorique() {
         //TODO : REQUETE SGBD
         return "";
+    }
+
+
+    // PRIVATE FUNCTION //
+    private void putHistorique(int IDVendeur,int IDAcheteur, int IDAction, int qte){
+        try {
+            java.sql.Statement stmt = Marche.getConnection().createStatement();
+            String setHist;
+            setHist  = "insert into Historique values (";
+            setHist += IDVendeur + ", ";
+            setHist += IDAcheteur + ", ";
+            setHist += IDAction + ", ";
+            setHist += qte + ")";
+            stmt.executeQuery(setHist);
+        }catch (Exception e){
+            System.out.println("\n\033[31m[FAIL]\033[m\n");
+            System.out.println("||Exception : Problème pour la mise à jour de l'historique");
+        }
     }
 
 }

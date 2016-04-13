@@ -16,17 +16,18 @@ import java.sql.*;
  * \brief Representation of the market
  *
  * \details Contain the spot of each asset
+ * \details Final class
  */
-public class Marche {
+final public class Marche {
 
     // ATTRIBUTS //
 
     private String nom; /**< Market's name */
-    private int tourCour; /**< Time */
+    private static int tourCour; /**< Time */
     private int nombreActions; /**< Number of assets in the market*/
     private static Action[] actions; /**< Assets contained in the market */
     private static double[] cours; /**< Asset's value at t=tourCour*/
-    private Connection connection; /**< The connection to the DataBase*/
+    private static Connection connection; /**< The connection to the DataBase*/
 
     // CONSTRUCTOR //
 
@@ -43,8 +44,8 @@ public class Marche {
      */
     public Marche(String nom, int tourCour,int nombreActions,Connection connection)throws Exception{
         int i = 0;
-        this.connection = connection;
-        if (this.connection == null){
+        Marche.connection = connection;
+        if (connection == null){
             throw new Exception("|| Exception ");
         }
         try{
@@ -61,7 +62,7 @@ public class Marche {
                 i++;
             }
             this.nombreActions = nombreActions;
-            this.tourCour = tourCour;
+            Marche.tourCour = tourCour;
             this.nom = nom;
         } catch (Exception e){
             System.err.println("FAIL");
@@ -79,8 +80,12 @@ public class Marche {
         return nombreActions;
     }
 
-    public int getTourCour() {
+    public static int getTourCour() {
         return tourCour;
+    }
+
+    public static Connection getConnection(){
+        return connection;
     }
 
     // METHODS //
@@ -98,7 +103,7 @@ public class Marche {
             String getActions = "SELECT * FROM ACTION";
             ResultSet rsActions = stmt.executeQuery(getActions);
             while(rsActions.next()) {
-                cours[i] = rsActions.getInt("VALUE" + (this.getTourCour() + 1));
+                cours[i] = rsActions.getInt("VALUE" + (Marche.getTourCour() + 1));
                 i++;
             }
         } catch (Exception e){
@@ -144,7 +149,7 @@ public class Marche {
             s += " : " + i.getNom();
             s += "\n----------------------------------------------";
             s += "\nValeur : " + i.getValeur();
-            s += " Evolution : " + i.getEvolution();
+            s += " Evolution : " + "\033[" + ((i.getEvolution()<0)?"31m":"33m") + i.getEvolution() + "\033[m %";
             s += "\nPlus-Value => " + i.getPlusValue();
         }
         return s;

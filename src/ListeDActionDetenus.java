@@ -46,7 +46,7 @@ public class ListeDActionDetenus extends ListeDAction{
             s += "\n----------------------------------------------";
             s += "\n\tQte : " + i.getQuantite() + " à " + i.getInitial() + " €";
             s += "\n\tCours : " + i.getValeur();
-            s += " EVOLUTION : " + i.getEvolution() + "%";
+            s += " Evolution : " + "\033[" + ((i.getEvolution()<0)?"31m":"33m") + i.getEvolution() + "\033[m %";
             s += "\n\tPlus-Value : " + i.getPlusValue() + "\n";
             pos++;
         }

@@ -43,7 +43,7 @@ public class ListeDActionSurveilles extends ListeDAction{
             s += " : " + i.getNom();
             s += "\n----------------------------------------------";
             s += "\nValeur : " + i.getValeur();
-            s += " Evolution : " + i.getEvolution();
+            s += " Evolution : \033[" + ((i.getEvolution()<0)?"31m":"33m") + i.getEvolution() + "\033[m %";
             s += "\nPlus-Value => " + i.getPlusValue();
             pos++;
         }

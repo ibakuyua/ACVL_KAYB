@@ -91,7 +91,7 @@ class Simulation{
         Connection connection;
         try{
             connection = initBD(nombreAction,nombreTour);
-            Market = new Marche("Market", 0, nombreAction,connection);
+            Market = new Marche("Market", 1, nombreAction,connection);
         }catch (Exception e){
             e.printStackTrace();
             System.err.println("\n\nProblème de connexion BD (VPN Activé ?)\n");
@@ -105,9 +105,9 @@ class Simulation{
         System.out.println("\n\n+ Création du joueur : " + user.getNom() + " effectuée. Cash initial : " + user.getArgent() + " euros.");
 
         boolean exit = false;
-        while(Market.getTourCour() <= nombreTour && !exit){
+        while(Marche.getTourCour() <= nombreTour && !exit){
 
-            System.out.println("\n == MENU DES OPERATIONS : \n\n" +
+            System.out.println("\n == MENU DES OPERATIONS TOUR(" + Marche.getTourCour() + "): \n\n" +
                     "1. Consulter mon portefeuille \n" +
                     "2. Consulter les actions surveillées\n" +
                     "3. Consulter les actions disponibles sur le marché\n" +
@@ -157,7 +157,8 @@ class Simulation{
                     break;
             }
         }
-        System.out.println("\n\n\t ## PLUS VALUE FINALE : " + (user.getArgent()-cash) + " euros ##\n");
+        System.out.println("\n\n\t ## PLUS VALUE FINALE : \033[" + ((user.getArgent()-cash<0)?"31m":"33m")
+                            +(user.getArgent()-cash) + "\033[m euros ##\n");
 
         // Fermeture de la BD //
         closeBD(connection);
@@ -231,7 +232,8 @@ class Simulation{
      * \param Utilisateur user : The user who wants to consult his historic
      */
     private static void consulterHist(Utilisateur user){
-        System.out.println("\n\n" + "\033[31m[Fonction NON IMPLEMENTEE]\033[m" + "\n\n");
+        System.out.println("\nHistorique de " + user.getNom() + " : \n");
+        System.out.println(user.toStringHistorique());
     }
 
 
@@ -297,9 +299,9 @@ class Simulation{
     protected static void closeBD(Connection connection){
         try{
             connection.close();
-            System.out.println("\n\033[34m[DECONNECTION CHECK]\033[m\n\n");
+            System.out.println("\n\033[34m[DISCONNECTION CHECK]\033[m\n");
         } catch (SQLException e){
-            System.err.println("\n\033[31m[DECONNECTION FAIL]\033[m\n");
+            System.err.println("\n\033[31m[DISCONNECTION FAIL]\033[m\n");
             e.printStackTrace(System.err);
         }
     }

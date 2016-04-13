@@ -1,4 +1,6 @@
+BD : Rajouter Table utilisateur
+     Rajouter un IDtransaction => Supprimer la table à chaque lancement ?
 Creation utilisateur ==> Creation dans BD
-Achat, vente ==> Tableau transaction
 Fonction historique
 Mettre des order by
+Couleur selon que l'évolution est+ou-
