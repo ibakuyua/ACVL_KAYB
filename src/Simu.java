@@ -192,7 +192,7 @@ class Simulation{
      */
     private static void venteAction(Utilisateur user){
         Scanner sc = new Scanner(System.in);
-        System.out.print("\nQuelle action voulait vous vendre ? Position : ");
+        System.out.print("\nQuelle action voulez vous vendre ? Position : ");
         int pos = sc.nextInt();
         System.out.print("\nQuantité ? : ");
         int qte = sc.nextInt();
@@ -279,7 +279,8 @@ class Simulation{
             for(int i = 1; i <= nbreTour; i++){
                 for(int j = 0; j < nbreAction; j++){
                     double[][] a = PontBrownien.simuler(nbreTour,nbreAction);
-                    setCours = "UPDATE ACTION SET VALUE" + i + " = " + a[i-1][j] + " WHERE IDACTION = " + j ;
+                    //setCours = "UPDATE ACTION SET VALUE" + i + " = " + a[j][i-1] + " WHERE IDACTION = " + j ;
+                    setCours = "UPDATE ACTION SET VALUE" + i + " = " + Math.random()*100 + " WHERE IDACTION = " + j ;
                     stmt.executeQuery(setCours);
                 }
                 System.out.print(i+"..");
@@ -354,7 +355,7 @@ class PontBrownien{
         r[21] = 0; r[22] = 0; r[23] = 0; r[24] = 0; r[25] = 0; r[26] = 0; r[27] = 0;
         r[28] = 0; r[29] = 0; r[30] = 0; r[31] = 0; r[32] = 0; r[33] = 0; r[34] = 0;
         r[35] = 0; r[36] = 0; r[37] = 0; r[38] = 0; r[39] = 0; r[40] = 0; r[41] = 0;
-        r[42] = 0; r[43] = 0; r[44] = 0; r[45] = 0; r[46] = 0; r[47] = 0; r[48] = 0;
+        r[42] = 0; r[43] = 0; r[44] = 0; r[45] = 0; r[46] = 0; r[47] = 0;
         return r;
     }
 }
