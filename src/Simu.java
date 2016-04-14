@@ -99,6 +99,8 @@ class Simulation{
         }
 
         // Création de l'utilisateur (unique en V1)
+        System.out.println("Appuyer sur ENTRER lorsque vous êtes prêt à démarrer ! \n");
+        sc.nextLine();
         System.out.print("\n*** Veuillez entrer votre pseudo : ");
         String nom = sc.nextLine();
         Utilisateur user = new Utilisateur(1,nom,cash);
@@ -268,13 +270,24 @@ class Simulation{
 
         // Initialisation
         try{
-            System.out.println("\nTIME /" + nbreTour + " : ");
             Statement stmt = connection.createStatement();
             if (stmt==null){
                 System.err.println("\n\n\033[31m[INITIALISATION FAILED]\033[m");
                 System.out.println("\nProblem to create a statement : Initialization");
                 return null;
             }
+
+
+            //Suppression de la table HISTORIQUE pour qu'il n'yait pas de réécriture
+            String getHist;
+            getHist = "CREATE TABLE HISTORIQUE( IDVENDEUR INTEGER, IdAcheteur INTEGER," +
+                    " IdAction INTEGER references Action , Quantity INTEGER, NUMTRANSAC INTEGER" +
+                    ")";
+            stmt.executeQuery(getHist);
+            System.out.println("CREATED");
+
+            System.out.println("\nTIME /" + nbreTour + " : ");
+
             String setCours;
             for(int i = 1; i <= nbreTour; i++){
                 for(int j = 0; j < nbreAction; j++){
@@ -298,6 +311,11 @@ class Simulation{
 
     protected static void closeBD(Connection connection){
         try{
+            Statement stmt = connection.createStatement();
+
+            String getHist = "DROP TABLE HISTORIQUE";
+            stmt.executeQuery(getHist);
+            System.out.println("DROPED");
             connection.close();
             System.out.println("\n\033[34m[DISCONNECTION CHECK]\033[m\n");
         } catch (SQLException e){

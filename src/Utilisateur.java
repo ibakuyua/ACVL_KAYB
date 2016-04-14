@@ -31,7 +31,6 @@ public class Utilisateur {
     private ListeDActionDetenus portefeuille; /**< User's portfolio*/
     private ListeDActionSurveilles favoris; /**< User's list of favorite assets*/
     private static int numberTransaction;
-    private boolean bool = true;
     // CONSTRUCTOR //
 
     /**
@@ -46,7 +45,7 @@ public class Utilisateur {
         this.ID = ID;
         this.nom = nom;
         this.argent = argent;
-        numberTransaction = 0;
+        numberTransaction = 1;
         portefeuille = new ListeDActionDetenus();
         favoris = new ListeDActionSurveilles();
     }
@@ -76,10 +75,7 @@ public class Utilisateur {
      * \throws Exception : If the user doesn't have enough money
      */
     public void acheter(int IDAction, int quantite) throws Exception{
-        // Cas où il n'a pas suffisament de fond
-        if (bool){
-            dropTable();
-        }
+
         if (quantite*Marche.getValeur(IDAction) > argent){
             throw new Exception("\n\033[31m[FAIL]\033[m\n||Exception : Vous n'avez pas assez de fond pour faire cet achat\n");
         }
@@ -87,6 +83,8 @@ public class Utilisateur {
         argent -= portefeuille.ajout(IDAction,quantite);
         // Mettre dans l'historique
         putHistorique(0,ID,IDAction,quantite);
+        numberTransaction++;
+
     }
 
     /**
@@ -99,12 +97,10 @@ public class Utilisateur {
     public void vendre(int position, int quantite) {
         // Vente de la quantite d'action donnée
         try{
-            if (bool){
-                dropTable();
-                bool = false;
-            }
+
             argent += portefeuille.retirer(position-1,quantite);
             putHistorique(ID,0,portefeuille.getIDAction(position-1),quantite);
+            numberTransaction++;
         }// Cas de la vente à découvert ou d'une position trop grande
         catch (Exception e){
             System.out.println(e.getMessage() + " ==> Veuillez reformuler votre demande \n");
@@ -158,25 +154,7 @@ public class Utilisateur {
 
 
 
-    public void dropTable(){
-        try{
-            java.sql.Statement stmt = Marche.getConnection().createStatement();
-            String getHist = "DROP TABLE HISTORIQUE";
-            stmt.executeQuery(getHist);
-            getHist = "CREATE TABLE HISTORIQUE(" +
-                    "IdVendeur INTEGER," +
-                    "IdAcheteur INTEGER," +
-                    "IdAction INTEGER references Action PRIMARY KEY," +
-                    "Quantity INTEGER, NUMTRANSAC INTEGER" +
-                    ")";
-            stmt.executeQuery(getHist);
 
-
-        }catch (SQLException e){
-            System.out.println("\n\033[31m[FAIL]\033[m\n");
-            System.out.println("||Exception : Problème lors de l'initialisation de la table Historique");
-        }
-    }
 
     /**
      * \fn String toStringHistorique()
