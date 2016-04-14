@@ -101,7 +101,7 @@ final public class Marche {
             String getActions = "SELECT * FROM ACTION ORDER BY IDaction";
             ResultSet rsActions = stmt.executeQuery(getActions);
             while(rsActions.next()) {
-                cours[i] = rsActions.getInt("VALUE" + (Marche.getTourCour() + 1));
+                cours[i] = rsActions.getFloat("VALUE" + (Marche.getTourCour() + 1));
                 i++;
             }
         } catch (Exception e){

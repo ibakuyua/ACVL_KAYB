@@ -117,8 +117,8 @@ class Simulation{
                     "5. Vendre une action \n" +
                     "6. Surveiller une action\n" +
                     "7. Ne plus surveiller une action\n" +
-                    "8. Consulter son historique personnel\n\n" +
-                    "9. Consulter l'historique d'une action \n" +
+                    "8. Consulter son historique personnel\n" +
+                    "9. Consulter l'historique d'une action \n\n" +
                     "10. Passer au tour suivant\n\n" +
                     "0. Quitter le jeu\n");
             System.out.print("Votre choix : ");
@@ -271,7 +271,7 @@ class Simulation{
             ResultSet res = stmt.executeQuery(getHist);
             res.next();
             for(int j = 1; j <= Marche.getTourCour(); j++){
-                System.out.println("Valeur au tour " + j + " : " + res.getInt("VALUE" + j) + "\n");
+                System.out.println("Valeur au tour " + j + " : " + res.getFloat("VALUE" + j) + "\n");
             }
         }catch(Exception e){
             System.out.println("Exception " + e.getMessage());
