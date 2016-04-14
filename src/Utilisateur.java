@@ -173,11 +173,19 @@ public class Utilisateur {
             java.sql.ResultSet ResSet = stmt.executeQuery(getHist);
             while(ResSet.next()){
 
-                Res = Res + ResSet.getInt("NUMTRANSAC") + ". :\n"
-                        + "IdVendeur : " + ResSet.getInt("IDVENDEUR") + "\n"
-                        + "IdAcheteur : " + ResSet.getInt("IDACHETEUR") + "\n"
-                        + "IdAction : " + ResSet.getInt("IDACTION") + "\n"
-                        + "Quantité d'action impliquée dans la vente : " + ResSet.getInt("QUANTITY") + "\n\n";
+                if(ResSet.getInt("IDACHETEUR") == ID) {
+                    Res = Res + ResSet.getInt("NUMTRANSAC") + ". :\n" +
+                            " ACHAT de l'action : "
+                            + "n° " + ResSet.getInt("IDACTION") + " "+ Marche.getNom(ResSet.getInt("IDACTION")) +"\n"
+                            + "Quantité d'action impliquée dans la vente : " + ResSet.getInt("QUANTITY") + "\n\n";
+                }else{
+                    Res = Res + ResSet.getInt("NUMTRANSAC") + ". :\n" +
+                            " Vente de l'action : "
+                            + "n° " + ResSet.getInt("IDACTION") + " "+ Marche.getNom(ResSet.getInt("IDACTION")) +"\n"
+                            + "Quantité d'action impliquée dans la vente : " + ResSet.getInt("QUANTITY") + "\n\n";
+                }
+
+
             }
 
             return Res;
@@ -193,8 +201,6 @@ public class Utilisateur {
     private void putHistorique(int IDVendeur,int IDAcheteur, int IDAction, int qte){
         try {
             // Incrément du nombre de Transaction
-            numberTransaction++;
-
 
 
             java.sql.Statement stmt = Marche.getConnection().createStatement();
