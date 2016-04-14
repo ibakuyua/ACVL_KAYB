@@ -9,6 +9,8 @@
  * \date 11 April 2016
  */
 
+import sun.org.mozilla.javascript.internal.EcmaError;
+
 import java.util.Scanner;
 import java.sql.*;
 import java.util.*;
@@ -176,9 +178,15 @@ class Simulation{
      */
     private static void achatAction(Utilisateur user){
         Scanner sc = new Scanner(System.in);
-        System.out.print("\nQuelle action voulait vous acheter ? ID : ");
+        System.out.print("\nQuelle action voulez vous acheter ? ID : ");
         int ID = sc.nextInt();
-        System.out.print("\nQuantité de " + Marche.getNom(ID) + " à " + Marche.getValeur(ID) + " euros ? : ");
+        try{
+            System.out.print("\nQuantité de " + Marche.getNom(ID) + " à " + Marche.getValeur(ID) + " euros ? : ");
+        }catch (Exception e){
+            System.out.println("Exception " + e.getMessage());
+            return;
+        }
+
         int qte = sc.nextInt();
         try {
             user.acheter(ID, qte);
@@ -213,7 +221,12 @@ class Simulation{
         System.out.print("\nQuelle action voulait vous surveiller ? ID : ");
         int ID = sc.nextInt();
         user.ajoutFav(ID);
-        System.out.println("\nAction surveillée : " + Marche.getNom(ID));
+        try{
+            System.out.println("\nAction surveillée : " + Marche.getNom(ID));
+        } catch (Exception e){
+            System.out.println("Exception " + e.getMessage());
+            return;
+        }
     }
 
     /**
