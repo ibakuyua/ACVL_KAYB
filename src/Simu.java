@@ -9,7 +9,6 @@
  * \date 11 April 2016
  */
 
-import sun.org.mozilla.javascript.internal.EcmaError;
 
 import java.util.Scanner;
 import java.sql.*;
@@ -120,8 +119,9 @@ class Simulation{
                     "5. Vendre une action \n" +
                     "6. Surveiller une action\n" +
                     "7. Ne plus surveiller une action\n" +
-                    "8. Consulter son historique\n\n" +
-                    "9. Passer au tour suivant\n\n" +
+                    "8. Consulter son historique personnel\n\n" +
+                    "9. Consulter l'historique d'une action \n" +
+                    "10. Passer au tour suivant\n\n" +
                     "0. Quitter le jeu\n");
             System.out.print("Votre choix : ");
             int a = sc.nextInt();
@@ -152,6 +152,9 @@ class Simulation{
                     consulterHist(user);
                     break;
                 case 9:
+                    consulterHist();
+                    break;
+                case 10:
                     Market.nextLap();
                     break;
                 case 0:
@@ -251,6 +254,30 @@ class Simulation{
     private static void consulterHist(Utilisateur user){
         System.out.println("\nHistorique de " + user.getNom() + " : \n");
         System.out.println(user.toStringHistorique());
+    }
+
+    private static void consulterHist(){
+        System.out.print("Quelle action voulez vous consulter ?  :");
+        Scanner sc = new Scanner(System.in);
+        int ID = sc.nextInt();
+        try {
+            String nomAction = Marche.getNom(ID);
+            System.out.println("\nL'Historique de l'action " + nomAction + " est le suivant : \n");
+        }catch (Exception e){
+            System.out.println("Exception " + e.getMessage());
+        }
+
+        try{
+            Statement stmt = Marche.getConnection().createStatement();
+            String getHist = "Select * FROM ACTION WHERE IDACTION = " + ID;
+            ResultSet res = stmt.executeQuery(getHist);
+            res.next();
+            for(int j = 1; j <= Marche.getTourCour(); j++){
+                System.out.println("Valeur au tour " + j + " : " + res.getInt("VALUE" + j) + "\n");
+            }
+        }catch(Exception e){
+            System.out.println("Exception " + e.getMessage());
+        }
     }
 
 
