@@ -65,8 +65,13 @@ abstract public class ListeDAction {
      * \return double : The amount of this operation
      */
     public double ajout(int IDAction, int qte){
-        Action a = new Action(IDAction,qte,Marche.getNom(IDAction),Marche.getValeur(IDAction));
-        actions.add(a);
+        try{
+            Action a = new Action(IDAction,qte,Marche.getNom(IDAction),Marche.getValeur(IDAction));
+            actions.add(a);
+        }catch (Exception e){
+
+        }
+
         return qte*Marche.getValeur(IDAction);
     }
 

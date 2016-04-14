@@ -24,7 +24,7 @@ final public class Marche {
 
     private String nom; /**< Market's name */
     private static int tourCour; /**< Time */
-    private int nombreActions; /**< Number of assets in the market*/
+    private static int nombreActions; /**< Number of assets in the market*/
     private static Action[] actions; /**< Assets contained in the market */
     private static double[] cours; /**< Asset's value at t=tourCour*/
     private static Connection connection; /**< The connection to the DataBase*/
@@ -129,8 +129,12 @@ final public class Marche {
      *
      * \return String : The name of the asset
      */
-    public static String getNom(int IDAction){
+    public static String getNom(int IDAction) throws Exception{
+        if(IDAction >= Marche.nombreActions){
+            throw new Exception("L'ID est inexistant \n");
+        }
         return actions[IDAction].getNom();
+
     }
 
     /**

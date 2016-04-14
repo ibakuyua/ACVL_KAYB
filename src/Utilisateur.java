@@ -172,18 +172,23 @@ public class Utilisateur {
             String getHist = "Select * from HISTORIQUE WHERE (IDACHETEUR = " + ID + " OR IDVENDEUR = " + ID + ")";
             java.sql.ResultSet ResSet = stmt.executeQuery(getHist);
             while(ResSet.next()){
+                try {
+                    if(ResSet.getInt("IDACHETEUR") == ID) {
+                        Res = Res + ResSet.getInt("NUMTRANSAC") + ". :\n" +
+                                " ACHAT de l'action : "
+                                + "n° " + ResSet.getInt("IDACTION") + " --> "+ Marche.getNom(ResSet.getInt("IDACTION")) +"\n"
+                                + "Quantité d'action impliquée dans la vente : " + ResSet.getInt("QUANTITY") + "\n\n";
+                    }else{
+                        Res = Res + ResSet.getInt("NUMTRANSAC") + ". :\n" +
+                                " VENTE de l'action : "
+                                + "n° " + ResSet.getInt("IDACTION") + " --> "+ Marche.getNom(ResSet.getInt("IDACTION")) +"\n"
+                                + "Quantité d'action impliquée dans la vente : " + ResSet.getInt("QUANTITY") + "\n\n";
+                    }
+                }catch (Exception e){
 
-                if(ResSet.getInt("IDACHETEUR") == ID) {
-                    Res = Res + ResSet.getInt("NUMTRANSAC") + ". :\n" +
-                            " ACHAT de l'action : "
-                            + "n° " + ResSet.getInt("IDACTION") + " "+ Marche.getNom(ResSet.getInt("IDACTION")) +"\n"
-                            + "Quantité d'action impliquée dans la vente : " + ResSet.getInt("QUANTITY") + "\n\n";
-                }else{
-                    Res = Res + ResSet.getInt("NUMTRANSAC") + ". :\n" +
-                            " Vente de l'action : "
-                            + "n° " + ResSet.getInt("IDACTION") + " "+ Marche.getNom(ResSet.getInt("IDACTION")) +"\n"
-                            + "Quantité d'action impliquée dans la vente : " + ResSet.getInt("QUANTITY") + "\n\n";
                 }
+
+
 
 
             }
@@ -211,7 +216,6 @@ public class Utilisateur {
             setHist += IDAction + ", ";
             setHist += qte + ",";
             setHist += numberTransaction + ")";
-            System.out.println(setHist);
             stmt.executeQuery(setHist);
         }catch (Exception e){
             System.out.println("\n\033[31m[FAIL]\033[m\n");
