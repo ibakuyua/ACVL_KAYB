@@ -83,6 +83,7 @@ public class Utilisateur {
         argent -= portefeuille.ajout(IDAction,quantite);
         // Mettre dans l'historique
         putHistorique(0,ID,IDAction,quantite);
+        // Transaction suivante
         numberTransaction++;
 
     }
@@ -97,9 +98,11 @@ public class Utilisateur {
     public void vendre(int position, int quantite) {
         // Vente de la quantite d'action donnée
         try{
-
-            argent += portefeuille.retirer(position-1,quantite);
-            putHistorique(ID,0,portefeuille.getIDAction(position-1),quantite);
+            double [] arID = portefeuille.retirer(position-1,quantite);
+            argent += arID[0];
+            // Mettre dans l'historique
+            putHistorique(ID,0,(int)arID[1],quantite);
+            // Transaction suivante
             numberTransaction++;
         }// Cas de la vente à découvert ou d'une position trop grande
         catch (Exception e){

@@ -81,12 +81,14 @@ abstract public class ListeDAction {
      *
      * \throws Exception in the case of removing too much
      */
-    public double retirer(int position, int qte) throws Exception{
+    public double[] retirer(int position, int qte) throws Exception{
         // Cas où l'action a retirer n'existe pas
         if (position >= actions.size() || position < 0){
             throw new Exception("\n||Exception : Vous ne pouvez retirer une action à cette position");
         }
-        double r = actions.get(position).getValeur()*qte;
+        double [] r = new double[2];
+        r[0] = actions.get(position).getValeur()*qte;
+        r[1] = actions.get(position).getIDAction();
         // Cas où on enlève toute l'action
         if(actions.get(position).getQuantite() == qte){
             actions.remove(position);

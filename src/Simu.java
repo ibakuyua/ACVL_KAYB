@@ -78,6 +78,7 @@ class Simulation{
         final int nombreTour = 12;
         final int nombreAction = 48;
         final double cash = 20000;
+
         // Connexion au VPN obligatoire
         Scanner sc = new Scanner(System.in);
         System.out.println("\n*** Veuillez vous connecter au VPN Ensimag pour utiliser la Base de Donnée\n"
@@ -212,6 +213,7 @@ class Simulation{
         System.out.print("\nQuelle action voulait vous surveiller ? ID : ");
         int ID = sc.nextInt();
         user.ajoutFav(ID);
+        System.out.println("\nAction surveillée : " + Marche.getNom(ID));
     }
 
     /**
@@ -284,7 +286,6 @@ class Simulation{
                     " IdAction INTEGER references Action , Quantity INTEGER, NUMTRANSAC INTEGER" +
                     ")";
             stmt.executeQuery(getHist);
-            System.out.println("CREATED");
 
             System.out.println("\nTIME /" + nbreTour + " : ");
 
@@ -292,6 +293,7 @@ class Simulation{
             for(int i = 1; i <= nbreTour; i++){
                 for(int j = 0; j < nbreAction; j++){
                     double[][] a = PontBrownien.simuler(nbreTour,nbreAction);
+                    // TODO : Pont Brownien
                     //setCours = "UPDATE ACTION SET VALUE" + i + " = " + a[j][i-1] + " WHERE IDACTION = " + j ;
                     setCours = "UPDATE ACTION SET VALUE" + i + " = " + Math.random()*100 + " WHERE IDACTION = " + j ;
                     stmt.executeQuery(setCours);
@@ -315,7 +317,6 @@ class Simulation{
 
             String getHist = "DROP TABLE HISTORIQUE";
             stmt.executeQuery(getHist);
-            System.out.println("DROPED");
             connection.close();
             System.out.println("\n\033[34m[DISCONNECTION CHECK]\033[m\n");
         } catch (SQLException e){
