@@ -10,6 +10,7 @@
  */
 
 import java.beans.Statement;
+import java.sql.SQLException;
 
 /**
  * \class Utilisateur
@@ -29,7 +30,8 @@ public class Utilisateur {
     private double argent; /**< User's Cash */
     private ListeDActionDetenus portefeuille; /**< User's portfolio*/
     private ListeDActionSurveilles favoris; /**< User's list of favorite assets*/
-
+    private static int numberTransaction;
+    private boolean bool = true;
     // CONSTRUCTOR //
 
     /**
@@ -44,7 +46,7 @@ public class Utilisateur {
         this.ID = ID;
         this.nom = nom;
         this.argent = argent;
-
+        numberTransaction = 0;
         portefeuille = new ListeDActionDetenus();
         favoris = new ListeDActionSurveilles();
     }
@@ -75,13 +77,16 @@ public class Utilisateur {
      */
     public void acheter(int IDAction, int quantite) throws Exception{
         // Cas où il n'a pas suffisament de fond
+        if (bool){
+            dropTable();
+        }
         if (quantite*Marche.getValeur(IDAction) > argent){
             throw new Exception("\n\033[31m[FAIL]\033[m\n||Exception : Vous n'avez pas assez de fond pour faire cet achat\n");
         }
         // Achat des actions
         argent -= portefeuille.ajout(IDAction,quantite);
         // Mettre dans l'historique
-        //putHistorique(0,ID,IDAction,quantite);
+        putHistorique(0,ID,IDAction,quantite);
     }
 
     /**
@@ -94,8 +99,12 @@ public class Utilisateur {
     public void vendre(int position, int quantite) {
         // Vente de la quantite d'action donnée
         try{
+            if (bool){
+                dropTable();
+                bool = false;
+            }
             argent += portefeuille.retirer(position-1,quantite);
-            //putHistorique(ID,0,portefeuille.getIDAction(position-1),quantite);
+            putHistorique(ID,0,portefeuille.getIDAction(position-1),quantite);
         }// Cas de la vente à découvert ou d'une position trop grande
         catch (Exception e){
             System.out.println(e.getMessage() + " ==> Veuillez reformuler votre demande \n");
@@ -147,6 +156,28 @@ public class Utilisateur {
         return favoris.toString();
     }
 
+
+
+    public void dropTable(){
+        try{
+            java.sql.Statement stmt = Marche.getConnection().createStatement();
+            String getHist = "DROP TABLE HISTORIQUE";
+            stmt.executeQuery(getHist);
+            getHist = "CREATE TABLE HISTORIQUE(" +
+                    "IdVendeur INTEGER," +
+                    "IdAcheteur INTEGER," +
+                    "IdAction INTEGER references Action PRIMARY KEY," +
+                    "Quantity INTEGER, NUMTRANSAC INTEGER" +
+                    ")";
+            stmt.executeQuery(getHist);
+
+
+        }catch (SQLException e){
+            System.out.println("\n\033[31m[FAIL]\033[m\n");
+            System.out.println("||Exception : Problème lors de l'initialisation de la table Historique");
+        }
+    }
+
     /**
      * \fn String toStringHistorique()
      * \brief Permit to describe the different event about the user
@@ -154,21 +185,46 @@ public class Utilisateur {
      * \return String : The description
      */
     public String toStringHistorique() {
-        //TODO : REQUETE SGBD
-        return "";
+        String Res = "";
+        try{
+            java.sql.Statement stmt = Marche.getConnection().createStatement();
+            String getHist = "Select * from HISTORIQUE WHERE (IDACHETEUR = " + ID + " OR IDVENDEUR = " + ID + ")";
+            java.sql.ResultSet ResSet = stmt.executeQuery(getHist);
+            while(ResSet.next()){
+
+                Res = Res + ResSet.getInt("NUMTRANSAC") + ". :\n"
+                        + "IdVendeur : " + ResSet.getInt("IDVENDEUR") + "\n"
+                        + "IdAcheteur : " + ResSet.getInt("IDACHETEUR") + "\n"
+                        + "IdAction : " + ResSet.getInt("IDACTION") + "\n"
+                        + "Quantité d'action impliquée dans la vente : " + ResSet.getInt("QUANTITY") + "\n\n";
+            }
+
+            return Res;
+        }catch (SQLException e){
+            System.out.println("\n\033[31m[FAIL]\033[m\n");
+            System.out.println("||Exception : Problème lors de la lecture de l'historique");
+        }
+        return Res;
     }
 
 
     // PRIVATE FUNCTION //
     private void putHistorique(int IDVendeur,int IDAcheteur, int IDAction, int qte){
         try {
+            // Incrément du nombre de Transaction
+            numberTransaction++;
+
+
+
             java.sql.Statement stmt = Marche.getConnection().createStatement();
             String setHist;
-            setHist  = "insert into Historique values (";
+            setHist  = "insert into HISTORIQUE values (";
             setHist += IDVendeur + ", ";
             setHist += IDAcheteur + ", ";
             setHist += IDAction + ", ";
-            setHist += qte + ")";
+            setHist += qte + ",";
+            setHist += numberTransaction + ")";
+            System.out.println(setHist);
             stmt.executeQuery(setHist);
         }catch (Exception e){
             System.out.println("\n\033[31m[FAIL]\033[m\n");
