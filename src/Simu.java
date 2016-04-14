@@ -9,8 +9,6 @@
  * \date 11 April 2016
  */
 
-import sun.org.mozilla.javascript.internal.EcmaError;
-
 import java.util.Scanner;
 import java.sql.*;
 import java.util.*;
@@ -23,7 +21,6 @@ import java.io.*;
  * \details Main of our program
  */
 public class Simu {
-
 
     /**
      * \fn void main(String[] args)
@@ -303,12 +300,13 @@ class Simulation{
             System.out.println("\nTIME /" + nbreTour + " : ");
 
             String setCours;
+            double[][] a = PontBrownien.simuler(nbreTour,nbreAction);
+            for(int j = 0; j<nbreTour; j++){
+                System.out.print(" | " + a[0][j]);
+            }
             for(int i = 1; i <= nbreTour; i++){
                 for(int j = 0; j < nbreAction; j++){
-                    double[][] a = PontBrownien.simuler(nbreTour,nbreAction);
-                    // TODO : Pont Brownien
-                    //setCours = "UPDATE ACTION SET VALUE" + i + " = " + a[j][i-1] + " WHERE IDACTION = " + j ;
-                    setCours = "UPDATE ACTION SET VALUE" + i + " = " + Math.random()*100 + " WHERE IDACTION = " + j ;
+                    setCours = "UPDATE ACTION SET VALUE" + i + " = " + a[j][i-1] + " WHERE IDACTION = " + j ;
                     stmt.executeQuery(setCours);
                 }
                 System.out.print(i+"..");
@@ -364,7 +362,7 @@ class PontBrownien{
             // Traitement de chaque action
             // Initialisation des deux extrémités
             r[i][0] = s0[i];
-            r[i][nbreTour-1] = s0[i] + normal(0,nbreTour);
+            r[i][nbreTour-1] = s0[i] + normal(0,3*nbreTour);
             recPB(0,nbreTour-1,r,i);
         }
         return r;
@@ -381,8 +379,8 @@ class PontBrownien{
         if(tb-ta > 1){
             int ti = (ta+tb)/2;
             // Remplissage du point du milieu par pont brownien
-            double m= r[i][ta] + ((ti-ta)/(tb-ta))*(r[i][tb]-r[i][ta]);
-            double v= ((tb-ti)*(ti-ta))/(tb-ta);
+            double m= r[i][ta] + (((double)ti-(double)ta)/((double)tb-(double)ta))*(r[i][tb]-r[i][ta]);
+            double v= (((double)tb-(double)ti)*((double)ti-(double)ta))/((double)tb-(double)ta);
             r[i][ti] = normal(m,v);
             // Parcours à gauche
             recPB(ta,ti,r,i);
