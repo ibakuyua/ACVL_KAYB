@@ -74,7 +74,7 @@ class Simulation{
      */
     protected static void jouer(){
         // VARIABLE GLOBALE DE JEU //
-        final int nombreTour = 12;
+        final int nombreTour = 15;
         final int nombreAction = 48;
         final double cash = 20000;
 
@@ -329,9 +329,6 @@ class Simulation{
 
             String setCours;
             double[][] a = PontBrownien.simuler(nbreTour,nbreAction);
-            for(int j = 0; j<nbreTour; j++){
-                System.out.print(" | " + a[0][j]);
-            }
             for(int i = 1; i <= nbreTour; i++){
                 for(int j = 0; j < nbreAction; j++){
                     setCours = "UPDATE ACTION SET VALUE" + i + " = " + a[j][i-1] + " WHERE IDACTION = " + j ;
@@ -390,7 +387,7 @@ class PontBrownien{
             // Traitement de chaque action
             // Initialisation des deux extrémités
             r[i][0] = s0[i];
-            r[i][nbreTour-1] = s0[i] + normal(0,3*nbreTour);
+            r[i][nbreTour-1] = s0[i] + normal(0,2.5*nbreTour);
             recPB(0,nbreTour-1,r,i);
         }
         return r;
