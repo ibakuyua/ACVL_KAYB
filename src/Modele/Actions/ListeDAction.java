@@ -1,6 +1,6 @@
-/**
- * \file ListeDAction.java
- * \brief Implementation of the class ListeDAction
+package Modele.Actions; /**
+ * \file Modele.Actions.ListeDAction.java
+ * \brief Implementation of the class Modele.Actions.ListeDAction
  * \author Ibakuyumcu Arnaud
  * \author Voong Kwan
  * \author Ayutaya Rattanatray
@@ -9,10 +9,13 @@
  * \date 10 April 2016
  */
 
+import Modele.Actions.Action;
+import Modele.Marche;
+
 import java.util.LinkedList;
 
 /**
- * \class ListeDAction
+ * \class Modele.Actions.ListeDAction
  * \brief Representation of a list of assets
  *
  * \details abstract class
@@ -25,7 +28,7 @@ abstract public class ListeDAction {
     // CONSTRUCTOR //
 
     /**
-     * \fn ListeDAction()
+     * \fn Modele.Actions.ListeDAction()
      * \brief Constructor
      */
     public ListeDAction(){
@@ -66,13 +69,13 @@ abstract public class ListeDAction {
      */
     public double ajout(int IDAction, int qte){
         try{
-            Action a = new Action(IDAction,qte,Marche.getNom(IDAction),Marche.getValeur(IDAction));
+            Action a = new Action(IDAction,qte, Marche.getNom(IDAction), Marche.getValeur(IDAction));
             actions.add(a);
         }catch (Exception e){
 
         }
 
-        return qte*Marche.getValeur(IDAction);
+        return qte* Marche.getValeur(IDAction);
     }
 
     /**

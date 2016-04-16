@@ -3,7 +3,7 @@
 # Makefile du TP ACVL
 #
 # Compilation, documentation
-# pour le jeu de simulation
+# pour le Jeu de simulation
 # boursière
 #
 # Ruimy Benjamin

@@ -1,6 +1,6 @@
-/**
- * \file Action.java
- * \brief Implementation of the class Action
+package Modele.Actions; /**
+ * \file Modele.Actions.Action.java
+ * \brief Implementation of the class Modele.Actions.Action
  * \author Ibakuyumcu Arnaud
  * \author Voong Kwan
  * \author Ayutaya Rattanatray
@@ -9,8 +9,10 @@
  * \date 10 April 2016
  */
 
+import Modele.Marche;
+
 /**
- * \class Action
+ * \class Modele.Actions.Action
  * \brief Representation of assets
  */
 public class Action {
@@ -23,7 +25,7 @@ public class Action {
     // CONSTRUCTOR //
 
     /**
-     * \fn Action(int IDAction, int quantite, String nom, double valeurIni)
+     * \fn Modele.Actions.Action(int IDAction, int quantite, String nom, double valeurIni)
      * \brief Constructor
      *
      * \param int IDAction : Identifiant of the asset

@@ -1,7 +1,7 @@
 DROP TABLE Historique;
-DROP TABLE Action; 
+DROP TABLE Modele.Actions.Action;
 
-CREATE TABLE Action(
+CREATE TABLE Modele.Actions.Action(
         IDaction INTEGER CONSTRAINT id PRIMARY KEY,
         Name VARCHAR(40),
         Quantity INTEGER,
@@ -62,7 +62,7 @@ CREATE TABLE Action(
 CREATE TABLE Historique(
         IdVendeur INTEGER,
         IdAcheteur INTEGER,
-        IdAction INTEGER references Action PRIMARY KEY,
+        IdAction INTEGER references Modele.Actions.Action PRIMARY KEY,
         Quantity INTEGER,
         CHECK ( Quantity >= 0 )
         );

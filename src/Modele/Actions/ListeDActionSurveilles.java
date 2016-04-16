@@ -1,6 +1,6 @@
-/**
- * \file ListeDAction.java
- * \brief Implementation of the class ListeDAction
+package Modele.Actions; /**
+ * \file Modele.Actions.ListeDAction.java
+ * \brief Implementation of the class Modele.Actions.ListeDAction
  * \author Ibakuyumcu Arnaud
  * \author Voong Kwan
  * \author Ayutaya Rattanatray
@@ -9,16 +9,21 @@
  * \date 10 April 2016
  */
 
+import Modele.Actions.Action;
+import Modele.Actions.ListeDAction;
+
+import java.text.DecimalFormat;
+
 /**
- * \class ListeDAction
+ * \class Modele.Actions.ListeDAction
  * \brief Representation of a list of favorite assets
  */
-public class ListeDActionSurveilles extends ListeDAction{
+public class ListeDActionSurveilles extends ListeDAction {
 
     // CONSTRUCTOR //
 
     /**
-     * \fn ListeDActionSurveilles()
+     * \fn Modele.Actions.ListeDActionSurveilles()
      * \brief Constructor
      *
      * \details Call super()
@@ -36,15 +41,16 @@ public class ListeDActionSurveilles extends ListeDAction{
      */
     @Override
     public String toString(){
-        String s = "Actions surveillées : " + actions.size() + " actions.\n";
+        DecimalFormat df = new DecimalFormat("0.0##");
+        String s = "\n  ** Actions surveillées : " + actions.size() + " actions.\n";
         int pos = 1;
         for(Action i : actions){
-            s += "\n\n" + pos + ") ID " + i.getIDAction();
+            s += "\n\n  " + pos + ") ID " + i.getIDAction();
             s += " : " + i.getNom();
             s += "\n----------------------------------------------";
-            s += "\nValeur : " + i.getValeur();
-            s += " Evolution : \033[" + ((i.getEvolution()<0)?"31m":"33m") + i.getEvolution() + "\033[m %";
-            s += "\nPlus-Value => "  + "\033[" + ((i.getPlusValue()<0)?"31m":"33m") + i.getPlusValue() + "\033[m \n";
+            s += "\n  Valeur : " + df.format(i.getValeur());
+            s += " Evolution : " + df.format(i.getEvolution()) + " %";
+            s += "\n  Plus-Value => "  + df.format(i.getPlusValue()) + " \n";
             pos++;
         }
         return s;

@@ -1,6 +1,6 @@
-/**
- * \file ListeDActionDetenus.java
- * \brief Implementation of the class ListeDActionDetenus
+package Modele.Actions; /**
+ * \file Modele.Actions.ListeDActionDetenus.java
+ * \brief Implementation of the class Modele.Actions.ListeDActionDetenus
  * \author Ibakuyumcu Arnaud
  * \author Voong Kwan
  * \author Ayutaya Rattanatray
@@ -9,18 +9,23 @@
  * \date 10 April 2016
  */
 
+import Modele.Actions.Action;
+import Modele.Actions.ListeDAction;
+
+import java.text.DecimalFormat;
+
 /**
- * \class ListeDActionDetenus
+ * \class Modele.Actions.ListeDActionDetenus
  * \brief Represent a user portfolio
  *
- * \details inherite from ListeDAction
+ * \details inherite from Modele.Actions.ListeDAction
  */
-public class ListeDActionDetenus extends ListeDAction{
+public class ListeDActionDetenus extends ListeDAction {
 
     // CONSTRUCTOR //
 
     /**
-     * \fn ListeDActionDetenus()
+     * \fn Modele.Actions.ListeDActionDetenus()
      * \brief Constructor
      *
      * \details Call the super()
@@ -39,19 +44,20 @@ public class ListeDActionDetenus extends ListeDAction{
      */
     @Override
     public String toString(){
-        String s = "Portefeuille : " + getNombreAction() + " actions.\n";
+        DecimalFormat df = new DecimalFormat("0.0##");
+        String s = " ** Portefeuille : " + getNombreAction() + " actions.\n";
         int pos = 1;
         for (Action i : actions){
-            s += "\n" + pos + ") ID " + i.getIDAction() + " : " + i.getNom();
+            s += "\n  " + pos + ") ID " + i.getIDAction() + " : " + i.getNom();
             s += "\n----------------------------------------------";
-            s += "\n\tQte : " + i.getQuantite() + " à " + i.getInitial() + " €";
-            s += "\n\tCours : " + i.getValeur();
-            s += " Evolution : " + "\033[" + ((i.getEvolution()<0)?"31m":"33m") + i.getEvolution() + "\033[m %";
-            s += "\n\tPlus-Value : " + "\033[" + ((i.getPlusValue()<0)?"31m":"33m") + i.getPlusValue() + "\033[m \n";
+            s += "\n\tQte : " + i.getQuantite() + " à " + df.format(i.getInitial()) + " €";
+            s += "\n\tCours : " + df.format(i.getValeur());
+            s += " Evolution : " + df.format((i.getEvolution())) + " %";
+            s += "\n\tPlus-Value : " + df.format(i.getPlusValue()) + " \n";
             pos++;
         }
-        s += "\n\nValeur portefeuille : " + valeur();
-        s += "\nPlus-Value : " + plusValue();
+        s += "\n\n  Valeur portefeuille : " + df.format(valeur());
+        s += "\n  Plus-Value : " + df.format(plusValue());
         return s;
     }
 

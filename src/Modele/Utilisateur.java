@@ -1,6 +1,6 @@
-/**
- * \file Utilisateur.java
- * \brief Permit to implement the Utilisateur class
+package Modele; /**
+ * \file Modele.Utilisateur.java
+ * \brief Permit to implement the Modele.Utilisateur class
  * \author Ibakuyumcu Arnaud
  * \author Voong Kwan
  * \author Ayutaya Rattanatray
@@ -9,11 +9,15 @@
  * \date 10 April 2016
  */
 
-import java.beans.Statement;
+import Modele.Actions.ListeDActionDetenus;
+import Modele.Actions.ListeDActionSurveilles;
+import Modele.Marche;
+
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 
 /**
- * \class Utilisateur
+ * \class Modele.Utilisateur
  * \brief Permit to represent an user
  *
  * \details A user has got an ID and a name
@@ -34,8 +38,8 @@ public class Utilisateur {
     // CONSTRUCTOR //
 
     /**
-     * \fn Utilisateur(int ID, String nom, double argent)
-     * \brief Constructor of a Utilisateur
+     * \fn Modele.Utilisateur(int ID, String nom, double argent)
+     * \brief Constructor of a Modele.Utilisateur
      *
      * \param int ID : The ID of the user
      * \param String nom : The name of the user
@@ -142,7 +146,8 @@ public class Utilisateur {
      * \return String : The description
      */
     public String toStringPortefeuille() {
-        return nom + "\n" + portefeuille.toString() + "\n\nCash disponible : " + argent + " euros";
+        DecimalFormat df = new DecimalFormat("0.0##");
+        return "\n ** " + nom + "\n" + portefeuille.toString() + "\n\n  Cash disponible : " + df.format(argent) + " euros";
     }
 
     /**
@@ -172,14 +177,14 @@ public class Utilisateur {
                 try {
                     if(ResSet.getInt("IDACHETEUR") == ID) {
                         Res = Res + ResSet.getInt("NUMTRANSAC") + ". :\n" +
-                                " ACHAT de l'action : "
+                                "  ACHAT de l'action : "
                                 + "n° " + ResSet.getInt("IDACTION") + " --> "+ Marche.getNom(ResSet.getInt("IDACTION")) +"\n"
-                                + "Quantité d'action impliquée dans la vente : " + ResSet.getInt("QUANTITY") + "\n\n";
+                                + "  Quantité d'action impliquée dans la vente : " + ResSet.getInt("QUANTITY") + "\n\n";
                     }else{
                         Res = Res + ResSet.getInt("NUMTRANSAC") + ". :\n" +
-                                " VENTE de l'action : "
+                                "  VENTE de l'action : "
                                 + "n° " + ResSet.getInt("IDACTION") + " --> "+ Marche.getNom(ResSet.getInt("IDACTION")) +"\n"
-                                + "Quantité d'action impliquée dans la vente : " + ResSet.getInt("QUANTITY") + "\n\n";
+                                + "  Quantité d'action impliquée dans la vente : " + ResSet.getInt("QUANTITY") + "\n\n";
                     }
                 }catch (Exception e){
 
@@ -210,7 +215,7 @@ public class Utilisateur {
      * \param IDAction : Which asset
      * \param int qte : How much
      *
-     * \details private function used in Utilisateur::acheter and Utilisateur::vendre
+     * \details private function used in Modele.Utilisateur::acheter and Modele.Utilisateur::vendre
      */
     private void putHistorique(int IDVendeur,int IDAcheteur, int IDAction, int qte){
         try {

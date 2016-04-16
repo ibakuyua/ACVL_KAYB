@@ -1,7 +1,7 @@
 ####################################
 # README : TP ACVL
 #
-# Simulation d'un jeu boursier
+# Simulation d'un Jeu boursier
 #
 # Ruimy Benjamin
 # Ibakuyumcu Arnaud
@@ -20,7 +20,7 @@ O) Compiler le projet (documentation + source)
 	
 	make
 
-O) Jouer au jeu
+O) Jouer au Jeu
 
 	make play
 

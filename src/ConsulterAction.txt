@@ -1,0 +1,23 @@
+private static void consulterHist(){
+        System.out.print("Quelle action voulez vous consulter ?  :");
+        Scanner sc = new Scanner(System.in);
+        int ID = sc.nextInt();
+        try {
+            String nomAction = Marche.getNom(ID);
+            System.out.println("\nL'Historique de l'action " + nomAction + " est le suivant : \n");
+        }catch (Exception e){
+            System.out.println("Exception " + e.getMessage());
+        }
+
+        try{
+            Statement stmt = Marche.getConnection().createStatement();
+            String getHist = "Select * FROM ACTION WHERE IDACTION = " + ID;
+            ResultSet res = stmt.executeQuery(getHist);
+            res.next();
+            for(int j = 1; j <= Marche.getTourCour(); j++){
+                System.out.println("Valeur au tour " + j + " : " + res.getFloat("VALUE" + j) + "\n");
+            }
+        }catch(Exception e){
+            System.out.println("Exception " + e.getMessage());
+        }
+    }

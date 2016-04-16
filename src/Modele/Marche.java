@@ -1,6 +1,6 @@
-/**
- * \file Marche.java
- * \brief Implementation of the class Marche
+package Modele; /**
+ * \file Modele.Marche.java
+ * \brief Implementation of the class Modele.Marche
  * \author Ibakuyumcu Arnaud
  * \author Voong Kwan
  * \author Ayutaya Rattanatray
@@ -9,10 +9,13 @@
  * \date 10 April 2016
  */
 
+import Modele.Actions.Action;
+
 import java.sql.*;
+import java.text.DecimalFormat;
 
 /**
- * \class ListeDAction.Marche
+ * \class Modele.Actions.ListeDAction.Modele.Marche
  * \brief Representation of the market
  * \brief Patron de conception singleton
  *
@@ -32,7 +35,7 @@ final public class Marche {
     // CONSTRUCTOR //
 
     /**
-     * \fn Marche(String nom, int tourCour,int nombreActions,Connection connection)
+     * \fn Modele.Marche(String nom, int tourCour,int nombreActions,Connection connection)
      * \brief Constructor of a market
      *
      * \param String nom : Market's name
@@ -145,14 +148,15 @@ final public class Marche {
      */
     @Override
     public String toString(){
-        String s = nom + " : " + nombreActions + " actions\n";
+        DecimalFormat df = new DecimalFormat("0.0##");
+        String s = "\n\tIl y a " + nombreActions + " actions\n";
         for (Action i : actions){
-            s += "\n\nID " + i.getIDAction();
+            s += "\n\n  ID " + i.getIDAction();
             s += " : " + i.getNom();
-            s += "\n----------------------------------------------";
-            s += "\nValeur : " + i.getValeur();
-            s += " Evolution : " + "\033[" + ((i.getEvolution()<0)?"31m":"33m") + i.getEvolution() + "\033[m %";
-            s += "\nPlus-Value => " + "\033[" + ((i.getPlusValue()<0)?"31m":"33m") + i.getPlusValue() + "\033[m \n";
+            s += "\n----------------------------------";
+            s += "\n  Valeur : " + df.format(i.getValeur());
+            s += "\n  Evolution : " + df.format(i.getEvolution()) + " %";
+            s += "\n  Plus-Value => " + df.format(i.getPlusValue()) + "\n";
         }
         return s;
     }

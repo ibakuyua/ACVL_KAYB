@@ -13,10 +13,23 @@
 
 # Definition des variables
 
-CLASS=Action ListeDAction ListeDActionDetenus ListeDActionSurveilles \
-      Marche Utilisateur
+CLASS=Controleur/Controler \
+      Modele/Actions/ListeDActionDetenus \
+      Modele/Actions/ListeDActionSurveilles \
+      Modele/Actions/Action \
+      Modele/Actions/ListeDAction \
+      Modele/Marche \
+      Modele/Utilisateur \
+      Utilitaires/DataBase/DataBase \
+      Utilitaires/PontBrownien \
+      Vue/Bouton \
+      Vue/DialogBoxAsk/DialogBox \
+      Vue/DialogBoxAsk/DialogBoxAV \
+      Vue/DialogBoxAsk/DialogBoxSurv \
+      Vue/FenetreGUI \
+      Vue/FinalCashFrame
 
-MAIN=Simu
+MAIN=Jeu
 
 SRC_DIR=.
 BIN_DIR=../bin
@@ -24,8 +37,8 @@ LIB_DIR=../lib
 
 ##########################
 
-FILE_OUT=$(CLASS:%=$(BIN_DIR)/%.class)\
-	$(MAIN:%=$(BIN_DIR)/%.class)
+FILE_OUT= $(CLASS:%=$(BIN_DIR)/%.class)\
+	  $(MAIN:%=$(BIN_DIR)/%.class)
 
 ##########################
 
