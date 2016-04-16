@@ -156,9 +156,6 @@ public class Utilisateur {
     }
 
 
-
-
-
     /**
      * \fn String toStringHistorique()
      * \brief Permit to describe the different event about the user
@@ -203,11 +200,20 @@ public class Utilisateur {
 
 
     // PRIVATE FUNCTION //
+
+    /**
+     * \putHistorique(int IDVendeur,int IDAcheteur, int IDAction, int qte)
+     * \brief Permit to put on the table Historique in the database a data
+     *
+     * \param int IDVendeur : Who sell (0 = Market)
+     * \param int IDAcheteur : Who buy (0=Market)
+     * \param IDAction : Which asset
+     * \param int qte : How much
+     *
+     * \details private function used in Utilisateur::acheter and Utilisateur::vendre
+     */
     private void putHistorique(int IDVendeur,int IDAcheteur, int IDAction, int qte){
         try {
-            // Incrément du nombre de Transaction
-
-
             java.sql.Statement stmt = Marche.getConnection().createStatement();
             String setHist;
             setHist  = "insert into HISTORIQUE values (";
@@ -222,5 +228,4 @@ public class Utilisateur {
             System.out.println("||Exception : Problème pour la mise à jour de l'historique");
         }
     }
-
 }

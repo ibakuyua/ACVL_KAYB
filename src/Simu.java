@@ -17,6 +17,7 @@ import java.io.*;
 /**
  * \class Simu
  * \brief Finance Game
+ * \brief CONTROLEUR
  *
  * \details Main of our program
  */
@@ -74,9 +75,9 @@ class Simulation{
      */
     protected static void jouer(){
         // VARIABLE GLOBALE DE JEU //
-        final int nombreTour = 15;
-        final int nombreAction = 48;
-        final double cash = 20000;
+        final int nombreTour = 15;   // Doit être < 52
+        final int nombreAction = 48; // Doit être <= 48
+        final double cash = 20000; // Doit être > 0
 
         // Connexion au VPN obligatoire
         Scanner sc = new Scanner(System.in);
@@ -86,11 +87,12 @@ class Simulation{
 
         // Affichage des règles pendant la création de la base
         rules();
-        // Création du marché (unique en V1)
         Marche Market;
         Connection connection;
         try{
+            // Initialisation de la BD
             connection = initBD(nombreAction,nombreTour);
+            // Création du marché (unique en V1)
             Market = new Marche("Market", 1, nombreAction,connection);
         }catch (Exception e){
             e.printStackTrace();
@@ -98,17 +100,18 @@ class Simulation{
             return;
         }
 
-        // Création de l'utilisateur (unique en V1)
         System.out.println("Appuyer sur ENTRER lorsque vous êtes prêt à démarrer ! \n");
         sc.nextLine();
         System.out.print("\n*** Veuillez entrer votre pseudo : ");
         String nom = sc.nextLine();
+        // Création de l'utilisateur (unique en V1)
         Utilisateur user = new Utilisateur(1,nom,cash);
         System.out.println("\n\n+ Création du joueur : " + user.getNom() + " effectuée. Cash initial : " + user.getArgent() + " euros.");
 
         boolean exit = false;
         while(Marche.getTourCour() <= nombreTour && !exit){
 
+            // MENU DES OPERATIONS POSSIBLES POUR L'UTILISATEUR (EVENEMENTS)
             System.out.println("\n == MENU DES OPERATIONS TOUR(" + Marche.getTourCour() + "): \n\n" +
                     "1. Consulter mon portefeuille \n" +
                     "2. Consulter les actions surveillées\n" +
@@ -124,6 +127,7 @@ class Simulation{
             System.out.print("Votre choix : ");
             int a = sc.nextInt();
 
+            // MODIFICATIONS DU MODELE
             switch (a){
                 case 1:
                     System.out.println("\n\n" + user.toStringPortefeuille() + "\n\n" );
@@ -254,6 +258,12 @@ class Simulation{
         System.out.println(user.toStringHistorique());
     }
 
+    /**
+     * \fn void consulterHist()
+     * \brief Permit to consult the historic of an asset
+     *
+     * \details Overloading of consulterHist(Utilisateur user)
+     */
     private static void consulterHist(){
         System.out.print("Quelle action voulez vous consulter ?  :");
         Scanner sc = new Scanner(System.in);
@@ -277,8 +287,6 @@ class Simulation{
             System.out.println("Exception " + e.getMessage());
         }
     }
-
-
 
     // PARTIE DATABASE //
     /**
@@ -361,7 +369,7 @@ class Simulation{
         }
     }
 
-
+    // PARTIE AFFICHAGE //
     /**
      * \fn rules()
      * \brief rules of the game
@@ -380,7 +388,18 @@ class Simulation{
  * \brief Permit to simulate a Brownian Motion for assets value
  */
 class PontBrownien{
-    private static double[] s0 = spotValue();
+
+    private final static double[] s0 = spotValue(); /**<Values of each asset at 14 April morning*/
+
+    /**
+     * \fn double[][] simuler(int nbreTour, int nbreAction)
+     * \brief Permit to simulate the price of an asset
+     *
+     * \param int nbreTour : Number of step in the game
+     * \param int nbreAction : Number of asset in the market
+     *
+     * \return double[nbreAction][nbreTour] : Price of each share at each step
+     */
     public static double [][] simuler(int nbreTour, int nbreAction){
         double[][] r = new double[nbreAction][nbreTour];
         for (int i = 0; i<nbreAction; i++){
@@ -393,12 +412,29 @@ class PontBrownien{
         return r;
     }
 
+    /**
+     * \fn double normal(double m, double v)
+     * \brief Simulation of a N(m,v)
+     * \param double m : Mean
+     * \param double v : Variance
+     *
+     * \return double FN(m,v)
+     */
     private static double normal(double m, double v){
         Random rand = new Random();
         double r = rand.nextGaussian();
         return m + Math.sqrt(v)*r;
     }
 
+    /**
+     * \fn void recPB(int ta, int tb, double[][] r, int i )
+     * \brief Recursion function for the simulation of a Brownian motion
+     *
+     * \param int ta : Left time
+     * \param int tb : Right time
+     * \param double[][] r : The matrix to fill
+     * \param int i : The current share
+     */
     private static void recPB(int ta, int tb, double[][] r, int i ){
         //S'il reste un temps à remplir entre ta et tb (condition d'arret de recursion)
         if(tb-ta > 1){
@@ -414,6 +450,12 @@ class PontBrownien{
         }
     }
 
+    /**
+     * \fn double[] spotValue()
+     * \brief Fill the field s0
+     *
+     * \return double[] : Price of each asset at t=0
+     */
     private static double[] spotValue(){
         double [] r = new double[48];
         r[0] = 57;

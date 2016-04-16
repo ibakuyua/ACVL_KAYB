@@ -14,9 +14,9 @@ import java.sql.*;
 /**
  * \class ListeDAction.Marche
  * \brief Representation of the market
+ * \brief Patron de conception singleton
  *
  * \details Contain the spot of each asset
- * \details Final class
  */
 final public class Marche {
 
