@@ -68,6 +68,9 @@ public class Utilisateur {
         return argent;
     }
 
+    public double getArgentPortfolio(){
+        return portefeuille.valeur();
+    }
     // METHODS //
 
     /**
@@ -79,9 +82,8 @@ public class Utilisateur {
      * \throws Exception : If the user doesn't have enough money
      */
     public void acheter(int IDAction, int quantite) throws Exception{
-
         if (quantite*Marche.getValeur(IDAction) > argent){
-            throw new Exception("\n\033[31m[FAIL]\033[m\n||Exception : Vous n'avez pas assez de fond pour faire cet achat\n");
+            throw new Exception("Vous n'avez pas assez de fond !\n");
         }
         // Achat des actions
         argent -= portefeuille.ajout(IDAction,quantite);
@@ -99,7 +101,7 @@ public class Utilisateur {
      * \param int position : Position of the asset in the portfolio
      * \param int quantite : Quantity to sell
      */
-    public void vendre(int position, int quantite) {
+    public void vendre(int position, int quantite) throws Exception {
         // Vente de la quantite d'action donnée
         try{
             double [] arID = portefeuille.retirer(position-1,quantite);
@@ -110,7 +112,7 @@ public class Utilisateur {
             numberTransaction++;
         }// Cas de la vente à découvert ou d'une position trop grande
         catch (Exception e){
-            System.out.println(e.getMessage() + " ==> Veuillez reformuler votre demande \n");
+            throw new Exception(e.getMessage());
         }
     }
 
@@ -130,12 +132,12 @@ public class Utilisateur {
      *
      * \param int position : Position of the asset to remove
      */
-    public void retirerFav(int position){
+    public void retirerFav(int position)throws Exception{
         try{
             favoris.retirer(position-1,1);
         }// Cas d'une position trop grande
         catch (Exception e){
-            System.out.println(e.getMessage() + "==> Veuillez reformuler votre demande\n");
+            throw new Exception(e.getMessage());
         }
     }
 

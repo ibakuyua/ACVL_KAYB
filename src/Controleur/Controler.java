@@ -16,6 +16,7 @@ import Modele.Utilisateur;
 import Utilitaires.DataBase.DataBase;
 import Vue.FenetreGUI;
 import Vue.FinalCashFrame;
+import Vue.JOptionException;
 
 import java.sql.Connection;
 import java.util.Scanner;
@@ -26,8 +27,8 @@ import java.util.Scanner;
  */
 public class Controler {
     // VARIABLES GLOBALES DU JEU //
-    final int nbreAction = 48; // Doit être <= 48
-    final static int nbreTour = 5; // Doit être < 52
+    final static int nbreAction = 48; // Doit être <= 48
+    final static int nbreTour = 3; // Doit être < 52
     final static double cash = 20000; // Doit être > 0
 
     // ATTRIBUTS //
@@ -78,35 +79,50 @@ public class Controler {
     // CONTROL METHODS //
     public static void closeGUI(){
         DataBase.closeBD(connection);
-        FinalCashFrame guiFinal = new FinalCashFrame(null,"  FIN DU JEU",true,(user.getArgent()-cash));
+        FinalCashFrame guiFinal = new FinalCashFrame(null,"  FIN DU JEU",true,(user.getArgent()+user.getArgentPortfolio()-cash));
         gui.dispose();
     }
 
     public static void achat(int ID, int qte){
-        try{
-            user.acheter(ID,qte);
-            // Dans le cas de l'achat :
-            gui.updatePortfolio(user.toStringPortefeuille());
-            gui.updateHistorique(user.toStringHistorique());
-        }catch (Exception e) {
-            System.out.println("\n\033[31m[FAILED]\033[m " + e.getMessage());
+        if (ID >= nbreAction){
+            new JOptionException("Erreur ID","L'ID est inexistant !");
+        }else {
+            try {
+                user.acheter(ID, qte);
+                gui.updatePortfolio(user.toStringPortefeuille());
+                gui.updateHistorique(user.toStringHistorique());
+            } catch (Exception e) {
+                new JOptionException("Erreur d'achat", e.getMessage());
+            }
         }
     }
 
     public static void vente(int pos, int qte){
-        user.vendre(pos,qte);
-        gui.updatePortfolio(user.toStringPortefeuille());
-        gui.updateHistorique(user.toStringHistorique());
+        try {
+            user.vendre(pos, qte);
+            gui.updatePortfolio(user.toStringPortefeuille());
+            gui.updateHistorique(user.toStringHistorique());
+        }catch (Exception e){
+            new JOptionException("Erreur de Vente", e.getMessage());
+        }
     }
 
     public static void surveiller(int ID){
-        user.ajoutFav(ID);
-        gui.updateFavoris(user.toStringFavoris());
+        if (ID >= nbreAction){
+            new JOptionException("Erreur ID","L'ID est inexistant !");
+        }else {
+            user.ajoutFav(ID);
+            gui.updateFavoris(user.toStringFavoris());
+        }
     }
 
     public static void notSurveiller(int pos){
-        user.retirerFav(pos);
-        gui.updateFavoris(user.toStringFavoris());
+        try {
+            user.retirerFav(pos);
+            gui.updateFavoris(user.toStringFavoris());
+        }catch (Exception e){
+            new JOptionException("Erreur position", e.getMessage());
+        }
     }
 
     public static void nextStep(){
@@ -122,6 +138,18 @@ public class Controler {
         gui.updateFavoris(user.toStringFavoris());
         gui.updateMarche(market.toString());
         gui.updateTitleMarche(market.getNom() + " (" + getTour() + ")");
+    }
+
+    public static void consulterCours(int ID){
+        String res = "";
+        try {
+            String nomAction = Marche.getNom(ID);
+            res += "\n  L'Historique de l'action " + nomAction + " est le suivant : \n\n";
+            res += DataBase.consulterCours(ID,Marche.getTourCour(),connection);
+            gui.updateCours(res);
+        }catch (Exception e){
+            new JOptionException("Erreur ID", e.getMessage());
+        }
     }
 
     // AUTRES //

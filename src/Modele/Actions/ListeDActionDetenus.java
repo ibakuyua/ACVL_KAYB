@@ -67,7 +67,7 @@ public class ListeDActionDetenus extends ListeDAction {
      *
      * \return double : value of the assets list
      */
-    private double valeur(){
+    public double valeur(){
         double r = 0;
         for(Action i : actions){
             r += i.getValeur()*i.getQuantite();

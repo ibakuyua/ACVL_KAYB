@@ -46,9 +46,12 @@ public class FenetreGUI extends JFrame{
     JTextArea portefeuilleTxt, favorisTxt, historiqueTxt, coursTxt, marcheTxt;
     // Boutons
     Bouton buttonJourSuiv, buttonAchat, buttonVente,
-            buttonQuitter, buttonSurv, buttonNotSurv;
+            buttonQuitter, buttonSurv, buttonNotSurv,
+            buttonCours;
     // Titre du marche
     JLabel titleMarche;
+    // ID de l'action pour consulter le cours
+    JTextField IDField;
     // Police du Jeu
     final Font police = new Font("Comics sans MS", Font.BOLD,16);
 
@@ -64,7 +67,7 @@ public class FenetreGUI extends JFrame{
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         try {
-            icon = ImageIO.read(new File("Vue/images/icon.jpeg"));
+            icon = ImageIO.read(new File("src/Vue/images/icon.jpeg"));
         }catch(IOException e){
             e.printStackTrace();
         }
@@ -106,7 +109,7 @@ public class FenetreGUI extends JFrame{
         JScrollPane scrollPort = new JScrollPane(portefeuilleTxt);
         scrollPort.setBackground(Color.LIGHT_GRAY);
         portefeuille.add(scrollPort);
-        containerHaut.addTab("Portefeuille",new ImageIcon("Vue/images/portfolioIcon.png"),portefeuille,
+        containerHaut.addTab("Portefeuille",new ImageIcon("src/Vue/images/portfolioIcon.png"),portefeuille,
                             "Actions présentes dans votre portefeuille");
         favoris = new JPanel();
         favorisTxt = new JTextArea(35,60);
@@ -114,21 +117,33 @@ public class FenetreGUI extends JFrame{
         favorisTxt.setEditable(false);
         JScrollPane scrollFav = new JScrollPane(favorisTxt);
         favoris.add(scrollFav);
-        containerHaut.addTab("Surveillées",new ImageIcon("Vue/images/lunetteIcon.png"),favoris,"Actions surveillées");
+        containerHaut.addTab("Surveillées",new ImageIcon("src/Vue/images/lunetteIcon.png"),favoris,"Actions surveillées");
         historique = new JPanel();
         historiqueTxt = new JTextArea(35,60);
         historiqueTxt.setBackground(Color.LIGHT_GRAY);
         historiqueTxt.setEditable(false);
         JScrollPane scrollHist = new JScrollPane(historiqueTxt);
         historique.add(scrollHist);
-        containerHaut.addTab("Historique",new ImageIcon("Vue/images/transactionIcon.png"),historique,"Historique de transaction de l'utilisateur");
+        containerHaut.addTab("Historique",new ImageIcon("src/Vue/images/transactionIcon.png"),historique,"Historique de transaction de l'utilisateur");
         cours = new JPanel();
+        cours.setLayout(new BorderLayout());
         coursTxt = new JTextArea(35,30);
         coursTxt.setBackground(Color.LIGHT_GRAY);
         coursTxt.setEditable(false);
         JScrollPane scrollCours = new JScrollPane(coursTxt);
-        cours.add(scrollCours);
-        containerHaut.addTab("Cours",new ImageIcon("Vue/images/coursIcon.png"),cours,"Cours d'une action depuis t=0");
+        cours.add(scrollCours,BorderLayout.CENTER);
+        JPanel panCoursID = new JPanel();
+        panCoursID.setBackground(Color.LIGHT_GRAY);
+        panCoursID.setLayout(new BorderLayout());
+        panCoursID.setBorder(BorderFactory.createTitledBorder("Consulter le cours d'une action"));
+        panCoursID.add(new JLabel("Saisir l'ID : "),BorderLayout.WEST);
+        IDField = new JTextField();
+        IDField.setPreferredSize(new Dimension(25,25));
+        panCoursID.add(IDField,BorderLayout.CENTER);
+        buttonCours = new Bouton("Valider",police);
+        panCoursID.add(buttonCours,BorderLayout.EAST);
+        cours.add(panCoursID,BorderLayout.SOUTH);
+        containerHaut.addTab("Cours",new ImageIcon("src/Vue/images/coursIcon.png"),cours,"Cours d'une action depuis t=0");
 
         // Definition du container bas
         containerBas.setBackground(Color.DARK_GRAY);
@@ -221,6 +236,17 @@ public class FenetreGUI extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 Controler.nextStep();
+            }
+        });
+
+        buttonCours.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Dans le cas où rien est rempli
+                if (!IDField.getText().equals("")) {
+                    Controler.consulterCours(Integer.parseInt(IDField.getText()));
+                    IDField.setText("");
+                }
             }
         });
 

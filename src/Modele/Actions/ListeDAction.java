@@ -92,7 +92,7 @@ abstract public class ListeDAction {
     public double[] retirer(int position, int qte) throws Exception{
         // Cas où l'action a retirer n'existe pas
         if (position >= actions.size() || position < 0){
-            throw new Exception("\n||Exception : Vous ne pouvez retirer une action à cette position");
+            throw new Exception("Position incorrecte");
         }
         double [] r = new double[2];
         r[0] = actions.get(position).getValeur()*qte;
@@ -107,7 +107,7 @@ abstract public class ListeDAction {
         }
         // Cas où on enlève plus que ce que l'on possède
         else{
-            throw new Exception("\n\033[31m[FAIL]\033[m\n||Exception : Vous ne pouvez pas vendre à découvert\n");
+            throw new Exception("Vente à découvert interdite");
         }
         return r;
     }

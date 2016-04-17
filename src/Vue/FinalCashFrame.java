@@ -19,7 +19,7 @@ public class FinalCashFrame extends JDialog{
         this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 
         DecimalFormat df = new DecimalFormat("0.0##");
-        JLabel cashTxt = new JLabel("## PLUS-VALUE FINALE : " + df.format(cash));
+        JLabel cashTxt = new JLabel("## PLUS-VALUE FINALE : " + df.format(cash) + " ##");
         cashTxt.setHorizontalAlignment(JLabel.CENTER);
         Button okButton = new Button("Terminer");
 

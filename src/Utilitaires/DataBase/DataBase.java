@@ -2,10 +2,7 @@ package Utilitaires.DataBase;
 
 import Utilitaires.PontBrownien;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 /**
  * Created by arnaud.ibakuyumcu on 16/04/2016.
@@ -74,6 +71,23 @@ public class DataBase {
         }
 
         return connection;
+    }
+
+    public static String consulterCours(int ID,int tourCour,Connection connection){
+        String s="";
+        try{
+            Statement stmt = connection.createStatement();
+            String getHist = "Select * FROM ACTION WHERE IDACTION = " + ID;
+            ResultSet res = stmt.executeQuery(getHist);
+            res.next();
+            for(int j = 1; j <= tourCour; j++){
+                s += "\n  Valeur au tour " + j + " : " + res.getFloat("VALUE" + j) + "\n";
+            }
+            return s;
+        }catch(Exception e){
+            System.out.println("Exception " + e.getMessage());
+            return "";
+        }
     }
 
     /**
