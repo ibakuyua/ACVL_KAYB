@@ -16,22 +16,50 @@
 
 ******* Partie Makefile
 
-O) Compiler le projet (documentation + source)
+*) Compiler le projet (documentation + source)
 	
 	make
 
-O) Jouer au Jeu
+*) Jouer au Jeu
 
 	make play
 
-O) Lire la documentation
+*) Lire la documentation
 
 	make doc
 
-O) Nettoyer les objets créés
+	-> Possibilité de rajouter l'option OPEN=name_application
+	   où name_application correspond au nom d'une application ouvrant un html
+	   Par défaut, OPEN=firefox
+
+	   Exemple pour MAC : make doc OPEN=open
+
+*) Nettoyer les objets créés
 
 	make clean
 
 ************************************
 
-******* Partie ...
+******* Partie arborescence du projet
+
+=> bin/     : Contient les fichiers créés lors d'un make
+            : Se vide lors d'un make clean
+
+=> docu/    : Contient la documentation par Doxygen du code
+            : make doc permet de lire cette documentation
+              (se réferrer plus haut)
+
+=> lib/     : Contient ojdbc7.jar, la librairie java
+              nécessaire pour utiliser la base de donnée
+
+=> ressources/ : Contient le sujet ainsi que les documentations
+                 demandées
+
+=> src/     : Contient les sources java du jeu de simulation
+              (voir plus bas)
+
+************************************
+
+******* Partie arborescence de src/
+
+=> //TODO a finir

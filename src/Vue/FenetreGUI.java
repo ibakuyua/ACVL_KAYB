@@ -243,10 +243,13 @@ public class FenetreGUI extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Dans le cas où rien est rempli
-                if (!IDField.getText().equals("")) {
-                    Controler.consulterCours(Integer.parseInt(IDField.getText()));
-                    IDField.setText("");
+                try {
+                    int ID = Integer.parseInt(IDField.getText());
+                    Controler.consulterCours(ID);
+                }catch (NumberFormatException ne){
+                    new JOptionException("Erreur ID","Veuillez rentrer un ID valide");
                 }
+                IDField.setText("");
             }
         });
 

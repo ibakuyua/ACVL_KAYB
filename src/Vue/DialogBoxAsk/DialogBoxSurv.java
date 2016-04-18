@@ -1,5 +1,7 @@
 package Vue.DialogBoxAsk;
 
+import Vue.JOptionException;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -41,8 +43,13 @@ public class DialogBoxSurv extends DialogBox{
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ID = Integer.parseInt(IDfield.getText());
-                sendData = true;
+                try {
+                    ID = Integer.parseInt(IDfield.getText());
+                    sendData = true;
+                }catch (NumberFormatException ne){
+                    sendData = false;
+                    new JOptionException("Erreur ID","Veuillez entrer un ID valide");
+                }
                 setVisible(false);
             }
         });

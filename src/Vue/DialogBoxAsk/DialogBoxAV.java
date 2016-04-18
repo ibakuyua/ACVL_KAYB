@@ -1,5 +1,7 @@
 package Vue.DialogBoxAsk;
 
+import Vue.JOptionException;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -52,9 +54,19 @@ public class DialogBoxAV extends DialogBox{
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ID = Integer.parseInt(IDfield.getText());
-                qte = Integer.parseInt(qteField.getText());
-                sendData = true;
+                try {
+                    ID = Integer.parseInt(IDfield.getText());
+                    try {
+                        qte = Integer.parseInt(qteField.getText());
+                        sendData = true;
+                    }catch (NumberFormatException ne){
+                        new JOptionException("Erreur Quantité","Veuillez entrer une quantité valide");
+                        sendData = false;
+                    }
+                }catch(NumberFormatException ne){
+                    new JOptionException("Erreur ID","Veuillez entrer un ID valide");
+                            sendData = false;
+                }
                 setVisible(false);
             }
         });
