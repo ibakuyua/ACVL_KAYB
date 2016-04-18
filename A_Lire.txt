@@ -62,4 +62,13 @@
 
 ******* Partie arborescence de src/
 
-=> //TODO a finir
+Structure MVC
+
+=> Controleur/  : Controleur du modele-vue
+=> Modele/      : Contient tous les modeles du jeu
+=> Utilitaires/ : Contient la simulation des cours
+                  + la partie base de donnée
+=> Vue/         : Contient tout l'interface graphique
+=> Jeu.java     : main du jeu
+
+************************************
