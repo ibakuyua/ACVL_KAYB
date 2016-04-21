@@ -1,4 +1,14 @@
 package Vue.DialogBoxAsk;
+/**
+ * \file Vue.DialogBoxSurv.java
+ * \brief Implementation of the DialogBoxAsk interface for controling
+ * \author Ibakuyumcu Arnaud
+ * \author Voong Kwan
+ * \author Ayutaya Rattanatray
+ * \author Ruimy Benjamin
+ * \version 1.0
+ * \date 16 April 2016
+ */
 
 import Vue.JOptionException;
 
@@ -8,15 +18,32 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Created by arnaud.ibakuyumcu on 16/04/2016.
+ * \class DialogBoxSurv
+ * \brief DialogBoxAsk for controling
+ *
+ * \details Extends DialogBox
  */
 public class DialogBoxSurv extends DialogBox{
-    public DialogBoxSurv(JFrame parent, String title,
-                         boolean modal, boolean isSurv){
+    /**
+     * \fn DialogBoxSurv(JFrame parent, String title,boolean modal, boolean isSurv)
+     * \brief Constructor
+     *
+     * \param JFrame parent
+     * \param String title
+     * \param boolean modal
+     * \param boolean isSurv : If the window is for controling or removing controlled asset
+     */
+    public DialogBoxSurv(JFrame parent, String title, boolean modal, boolean isSurv){
         super(parent,title,modal);
         init(isSurv);
     }
 
+    /**
+     * \fn void init(boolean isSurv)
+     * \brief Permit to init the window
+     *
+     * \param boolean isSurv : If the window is for controling or removing controlled asset
+     */
     private void init(boolean isSurv){
         // MISE EN PLACE DE L'ICONE
         JPanel panIcon = new JPanel();

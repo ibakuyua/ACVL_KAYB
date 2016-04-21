@@ -19,7 +19,7 @@ public class Action {
     // ATTRIBUTS //
     private int IDAction; /**< Asset's ID*/
     private String nom; /**< Asset's name*/
-    private int quantite; /**< */
+    private int quantite; /**< Asset's quantity*/
     private double initial; /**< Asset's initial value (when the object was created)*/
 
     // CONSTRUCTOR //

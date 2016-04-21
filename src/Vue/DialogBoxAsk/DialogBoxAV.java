@@ -1,4 +1,14 @@
 package Vue.DialogBoxAsk;
+/**
+ * \file Vue.DialogBoxAV.java
+ * \brief Implementation of the DialogBoxAsk interface for buying/selling
+ * \author Ibakuyumcu Arnaud
+ * \author Voong Kwan
+ * \author Ayutaya Rattanatray
+ * \author Ruimy Benjamin
+ * \version 1.0
+ * \date 16 April 2016
+ */
 
 import Vue.JOptionException;
 
@@ -8,18 +18,36 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Created by arnaud.ibakuyumcu on 16/04/2016.
+ * \class DialogBoxAV
+ * \brief DialogBoxAsk for buying/selling
+ *
+ * \details Extends DialogBox
  */
 public class DialogBoxAV extends DialogBox{
 
-    private JTextField qteField;
-    private int qte;
+    private JTextField qteField; /**<The quantity fields*/
+    private int qte; /**<The quantity asking*/
 
+    /**
+     * \fn DialogBoxAV(JFrame parent, String title, boolean modal,boolean isAchat)
+     * \brief Constructor
+     *
+     * \param JFrame parent
+     * \param String title
+     * \param boolean modal
+     * \param boolean isAchat : If the window is for buying
+     */
     public DialogBoxAV(JFrame parent, String title, boolean modal,boolean isAchat){
         super(parent,title,modal);
         init(isAchat);
     }
 
+    /**
+     * \fn void init(boolean isAchat)
+     * \brief Permit to init the window
+     *
+     * \param boolean isAchat : If the window is for buying
+     */
     private void init(boolean isAchat){
         // MISE EN PLACE DE L'ICONE
         JPanel panIcon = new JPanel();

@@ -23,7 +23,7 @@ import java.util.Scanner;
 
 /**
  * \class Controler
- * \brief Permit to control the event of the Vue (GUI)
+ * \brief Permit to control the event of the Vue (GUI) and modify the Modele
  */
 public class Controler {
     // VARIABLES GLOBALES DU JEU //
@@ -38,6 +38,13 @@ public class Controler {
     private static Connection connection; /**< DataBase part, the connection*/
 
     // CONSTRUCTOR //
+
+    /**
+     * \fn Controler()
+     * \brief Constructor
+     *
+     * \throws Exception if there is a problem with database connection
+     */
     public Controler()throws Exception{
         // Connexion au VPN obligatoire
         Scanner sc = new Scanner(System.in);
@@ -66,7 +73,7 @@ public class Controler {
                 user.getNom() + " effectuée. Cash initial : " +
                 user.getArgent() + " euros.");
         // Ouverture de la fenetre
-        gui = new FenetreGUI(market.getNom(),user.getNom());
+        gui = new FenetreGUI(user.getNom());
         // Update de tous les onglets
         gui.updatePortfolio(user.toStringPortefeuille());
         gui.updateFavoris(user.toStringFavoris());
@@ -77,12 +84,24 @@ public class Controler {
     }
 
     // CONTROL METHODS //
+
+    /**
+     * \fn closeGui()
+     * \brief Permit to close the GUI window clearly
+     */
     public static void closeGUI(){
         DataBase.closeBD(connection);
         FinalCashFrame guiFinal = new FinalCashFrame(null,"  FIN DU JEU",true,(user.getArgent()+user.getArgentPortfolio()-cash));
         gui.dispose();
     }
 
+    /**
+     * \fn void achat(int ID, int qte)
+     * \brief Permit to buy an asset
+     *
+     * \param int ID : The asset's ID
+     * \param qte : The asset's quantity
+     */
     public static void achat(int ID, int qte){
         if (ID >= nbreAction){
             new JOptionException("Erreur ID","L'ID est inexistant !");
@@ -97,6 +116,13 @@ public class Controler {
         }
     }
 
+    /**
+     * \fn void vente(int pos, int qte)
+     * \brief Permit to sell an asset
+     *
+     * \param int pos : The asset's position
+     * \param int qte : The asset's quantity
+     */
     public static void vente(int pos, int qte){
         try {
             user.vendre(pos, qte);
@@ -107,6 +133,12 @@ public class Controler {
         }
     }
 
+    /**
+     * \fn void surveiller(int ID)
+     * \brief Permit to control an asset
+     *
+     * \param int ID : The asset's ID
+     */
     public static void surveiller(int ID){
         if (ID >= nbreAction){
             new JOptionException("Erreur ID","L'ID est inexistant !");
@@ -116,6 +148,12 @@ public class Controler {
         }
     }
 
+    /**
+     * \fn void notSurveiller(int pos)
+     * \brief Permit to remove a controlled asset
+     *
+     * \param int pos : The asset's position
+     */
     public static void notSurveiller(int pos){
         try {
             user.retirerFav(pos);
@@ -125,6 +163,12 @@ public class Controler {
         }
     }
 
+    /**
+     * \fn void nextStep()
+     * \brief Permit to go to the next step
+     *
+     * \details : Close the GUI if it is the end of the game
+     */
     public static void nextStep(){
         // Si on a fini le jeu
         if (getTour() >= nbreTour){
@@ -140,6 +184,12 @@ public class Controler {
         gui.updateTitleMarche(market.getNom() + " (" + getTour() + ")");
     }
 
+    /**
+     * \fn void consulterCours(int ID)
+     * \brief Permit to consult the price of an asset during all the game
+     *
+     * \param int ID : The asset's ID
+     */
     public static void consulterCours(int ID){
         String res = "";
         try {
@@ -153,10 +203,21 @@ public class Controler {
     }
 
     // AUTRES //
+
+    /**
+     * \int getTour()
+     * \brief Permit to know in which lap the user are
+     *
+     * \return int : The current lap
+     */
     public static int getTour(){
         return Marche.getTourCour();
     }
 
+    /**
+     * \void rules()
+     * \brief Display of the game's rules
+     */
     private void rules(){
         System.out.println("\n" +
                 "\033[31m[RULES]\033[m\n");

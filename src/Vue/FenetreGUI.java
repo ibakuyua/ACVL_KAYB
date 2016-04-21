@@ -1,5 +1,4 @@
 package Vue;
-
 /**
  * \file FenetreGUI.java
  * \brief Implementation of the class FenetreGUI
@@ -33,34 +32,41 @@ public class FenetreGUI extends JFrame{
     // ATTRIBUTS //
 
     // Conteneur Haut (Tab bar)
-    JTabbedPane containerHaut = new JTabbedPane();
-    // Conteneur Bas (Modele.Actions.Action utilisateur)
-    JPanel containerBas = new JPanel();
-    // Conteneur (Modele.Actions.Action du marché)
-    JPanel containerDroit = new JPanel();
+    JTabbedPane containerHaut = new JTabbedPane();/**<Tab panel*/
+    // Conteneur Bas (Action utilisateur)
+    JPanel containerBas = new JPanel();/**<Panel for buttons buy,sell,control, remove controled*/
+    // Conteneur (Action du marché)
+    JPanel containerDroit = new JPanel();/**<Panel for the market's shares*/
     // Icone principal
-    Image icon;
+    Image icon/**<Icon*/;
     // Les différents onglets
-    JPanel portefeuille,favoris,historique, cours;
+    JPanel portefeuille,favoris,historique, cours; /**<Differents tabs*/
     // Les affichages des onglets
-    JTextArea portefeuilleTxt, favorisTxt, historiqueTxt, coursTxt, marcheTxt;
+    JTextArea portefeuilleTxt, favorisTxt, historiqueTxt, coursTxt, marcheTxt; /**<Differents textArea for tab bar*/
     // Boutons
     Bouton buttonJourSuiv, buttonAchat, buttonVente,
             buttonQuitter, buttonSurv, buttonNotSurv,
-            buttonCours;
+            buttonCours; /**<Buttons*/
     // Titre du marche
-    JLabel titleMarche;
-    // ID de l'action pour consulter le cours
-    JTextField IDField;
+    JLabel titleMarche; /**<Market title*/
+    // IDField
+    JTextField IDField; /**<TextField for the asset's ID to show*/
     // Police du Jeu
-    final Font police = new Font("Comics sans MS", Font.BOLD,16);
+    final Font police = new Font("Comics sans MS", Font.BOLD,16); /**<Font of the game*/
 
 
     // CONSTRUCTOR //
-    public FenetreGUI(String marketName, String userName){
+
+    /**
+     * \fn FentreGUI(String marketName, String userName)
+     * \brief Constructor
+     *
+     * \param String marketName : market's name
+     * \param String userName : user's name
+     */
+    public FenetreGUI(String userName){
 
         // Définition de la fenetre //
-
         this.setTitle("ACVL : Simulation boursière (Joueur : " + userName + ")");
         this.setSize(1200,800);
         this.setResizable(false);
@@ -176,7 +182,7 @@ public class FenetreGUI extends JFrame{
         split2.setDividerLocation(900);
         split2.setEnabled(false);
 
-        // Evenement lié aux boutons //
+        // Evenements lié aux boutons //
         buttonQuitter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -259,22 +265,59 @@ public class FenetreGUI extends JFrame{
     }
 
     // METHODE D'UPDATE //
+
+    /**
+     * \fn void updatePortfolio(String str)
+     * \brief Permit to update the display of the portfolio
+     *
+     * \param String str : Display of the portfolio
+     */
     public void updatePortfolio(String str){
         portefeuilleTxt.setText(str);
     }
+    /**
+     * \fn void updateFavoris(String str)
+     * \brief Permit to update the display of the controled shares
+     *
+     * \param String str : Display of the controled shares
+     */
     public void updateFavoris(String str){
         favorisTxt.setText(str);
 
     }
+    /**
+     * \fn void updateHistorique(String str)
+     * \brief Permit to update the display of the historic
+     *
+     * \param String str : Display of the historic
+     */
     public void updateHistorique(String str){
         historiqueTxt.setText(str);
     }
+    /**
+     * \fn void updateCours(String str)
+     * \brief Permit to update the display of share's price
+     *
+     * \param String str : Display of the portfolio
+     */
     public void updateCours(String str){
         coursTxt.setText(str);
     }
+    /**
+     * \fn void updateMarche(String str)
+     * \brief Permit to update the display of the market
+     *
+     * \param String str : Display of the market
+     */
     public void updateMarche(String str){
         marcheTxt.setText(str);
     }
+    /**
+     * \fn void updateTitleMarche(String str)
+     * \brief Permit to update the display of the market's title
+     *
+     * \param String str : The market's title
+     */
     public void updateTitleMarche(String str){
         titleMarche.setText(str);
     }

@@ -1,9 +1,19 @@
 package Utilitaires;
+/**
+ * \file Utilitaires.PontBrownien.java
+ * \brief Implementation of the utilitary PontBrownien
+ * \author Ibakuyumcu Arnaud
+ * \author Voong Kwan
+ * \author Ayutaya Rattanatray
+ * \author Ruimy Benjamin
+ * \version 1.0
+ * \date 10 April 2016
+ */
 
 import java.util.Random;
 
 /**
- * \class PontBrownien
+ * \class Utilitaires.PontBrownien
  * \brief Permit to simulate a Brownian Motion for assets value
  */
 public class PontBrownien{

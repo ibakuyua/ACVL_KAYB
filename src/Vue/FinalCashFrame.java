@@ -1,4 +1,14 @@
 package Vue;
+/**
+ * \file Vue.FinalCashFrame
+ * \brief Implementation of the final window of the game
+ * \author Ibakuyumcu Arnaud
+ * \author Voong Kwan
+ * \author Ayutaya Rattanatray
+ * \author Ruimy Benjamin
+ * \version 1.0
+ * \date 16 April 2016
+ */
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,9 +17,21 @@ import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 
 /**
- * Created by arnaud.ibakuyumcu on 17/04/2016.
+ * \class Vue.FinalCashFrame
+ * \brief Permit to display the final gain of the game
+ *
+ * \details Extends JDialog
  */
 public class FinalCashFrame extends JDialog{
+    /**
+     * \fn FinalCashFrame(JFrame parent, String title, boolean modal,double cash)
+     * \brief Constructor
+     *
+     * \param JFrame parent
+     * \param String title : Window's title
+     * \param boolean modal
+     * \param double cash : Final gain
+     */
     public FinalCashFrame(JFrame parent, String title, boolean modal,double cash){
         super(parent,title,modal);
         this.setSize(500,300);

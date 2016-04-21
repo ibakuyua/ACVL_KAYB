@@ -1,11 +1,22 @@
 package Utilitaires.DataBase;
+/**
+ * \file Utilitaires.DataBase.DataBase.java
+ * \brief Implementation of the utilitary DataBase
+ * \author Ibakuyumcu Arnaud
+ * \author Voong Kwan
+ * \author Ayutaya Rattanatray
+ * \author Ruimy Benjamin
+ * \version 1.0
+ * \date 10 April 2016
+ */
 
 import Utilitaires.PontBrownien;
 
 import java.sql.*;
 
 /**
- * Created by arnaud.ibakuyumcu on 16/04/2016.
+ * \class Utilitaires.DataBase.DataBase
+ * \brief Utilitary for connection with database
  */
 public class DataBase {
     /**
@@ -73,6 +84,16 @@ public class DataBase {
         return connection;
     }
 
+    /**
+     * \fn String consulterCours(int ID,int tourCour,Connection connection)
+     * \brief Permit to consult the price of an asset during all the game period
+     *
+     * \param int ID : The asset's ID
+     * \param int tourCour : The period [0,tourCour]
+     * \param Connection connection : The connection to the database
+     *
+     * \return String : Display of the price
+     */
     public static String consulterCours(int ID,int tourCour,Connection connection){
         String s="";
         try{

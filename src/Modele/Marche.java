@@ -63,7 +63,7 @@ final public class Marche {
                         rsActions.getString("NAME"),rsActions.getInt("VALUE1"));
                 i++;
             }
-            this.nombreActions = nombreActions;
+            Marche.nombreActions = nombreActions;
             Marche.tourCour = tourCour;
             this.nom = nom;
         } catch (Exception e){
@@ -76,10 +76,6 @@ final public class Marche {
 
     public String getNom() {
         return nom;
-    }
-
-    public int getNombreActions() {
-        return nombreActions;
     }
 
     public static int getTourCour() {
