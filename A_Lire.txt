@@ -72,3 +72,7 @@ Structure MVC
 => Jeu.java     : main du jeu
 
 ************************************
+
+******* Document a rendre 
+
+Les documents à rendre sont dans le dossier documentARendre
