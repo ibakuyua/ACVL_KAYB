@@ -220,6 +220,11 @@ public class Controler {
      */
     private void rules(){
         System.out.println("\n" +
-                "\033[31m[RULES]\033[m\n");
+                "\033[32m[RULES]\033[m\n");
+
+        System.out.println("Ce jeu de Simulation boursiere a pour but de faire decouvrir le principe de la bourse.\n" +
+                "Le joueur part initialement avec un capital de d ́epart de 20 000E. La version du jeu proposee se deroule en 15 tours.\n" +
+                "A chaque tour, le joueur peut effectuer differentes operations, il peut effectuer des achats et des ventes d’actions parmis un panel de 48 actions.\n" +
+                "Le but  etant de faire fructifier au mieux, a l’issu des 15 tours de jeu, son portefeuille afin qu’il puisse obtenir la plus grande plus-value finale.");
     }
 }
