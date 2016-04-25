@@ -28,7 +28,7 @@ import java.util.Scanner;
 public class Controler {
     // VARIABLES GLOBALES DU JEU //
     final static int nbreAction = 48; // Doit être <= 48
-    final static int nbreTour = 3; // Doit être < 52
+    final static int nbreTour = 12; // Doit être < 52
     final static double cash = 20000; // Doit être > 0
 
     // ATTRIBUTS //
